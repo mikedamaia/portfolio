@@ -49,6 +49,7 @@
   .feed{
     height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;
     scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+    overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
   }
   .feed::-webkit-scrollbar{display:none}
 
@@ -147,7 +148,9 @@
     width:36%;height:15px;background:#050505;border-radius:0 0 12px 12px;z-index:2;
   }
   .device .screen{position:relative;width:100%;height:100%;border-radius:26px;overflow:hidden;background:#0d0c0b}
-  .device .screen iframe{position:absolute;top:0;left:0;border:0;display:block;transform-origin:top left;width:390px;background:#0d0c0b}
+  /* pointer-events:none so wheel/touch passes through to the feed (the iframe
+     otherwise traps the scroll and you can't snap past this frame). */
+  .device .screen iframe{position:absolute;top:0;left:0;border:0;display:block;transform-origin:top left;width:390px;background:#0d0c0b;pointer-events:none}
   @media(max-height:680px){.device{height:46dvh}}
 
   /* --- Section divider frames (AI Projects / AI Experiments Lab / Music) --- */
@@ -182,6 +185,22 @@
   .labviz{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;
           padding:62px 30px 0;background:radial-gradient(120% 75% at 50% 24%, #1e231b 0%, #15120d 58%, #0d0c0b 100%)}
   .labviz svg{width:100%;max-width:300px;height:auto;overflow:visible}
+
+  /* --- Polish: interaction states, transitions, focus --- */
+  .cta{transition:transform .16s ease,box-shadow .16s ease,opacity .16s ease}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.28)}
+  .cta:active{transform:translateY(0);box-shadow:none}
+  .tags span{transition:border-color .16s ease,color .16s ease}
+  .tags a:hover span{border-color:var(--red);color:var(--red)}
+  .topbar .t{transition:opacity .16s ease}
+  .topbar .t:hover{opacity:.85}
+  .duo .card{transition:border-color .16s ease,background .16s ease}
+  .duo .card:hover{border-color:rgba(250,248,243,.34);background:rgba(250,248,243,.05)}
+  a:focus-visible,.t:focus-visible,.cta:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+  @media(prefers-reduced-motion:reduce){
+    .feed{scroll-behavior:auto}
+    .cta,.cta:hover,.tags span,.duo .card{transition:none}
+  }
 </style>
 </head>
 <body>
@@ -281,6 +300,7 @@
           <h2 class="title">Telepathic<br><em>Instruments</em></h2>
           <div class="handle">instrument onboarding · save your sound</div>
           <p class="desc">Capture a sound and teach the instrument to play it back by intent.</p>
+          <a class="cta" href="https://orchid-agent.vercel.app/demo/save-sound" target="_blank" rel="noopener">Open the live demo ↗</a>
         </div>
       </section>
 
@@ -501,7 +521,7 @@
 
     <div class="topbar" id="topbar">
       <a class="t on" href="index.html">Portfolio</a>
-      <a class="t" href="cv.html">CV</a>
+      <a class="t" href="cv/">CV</a>
     </div>
     <div class="progress" id="progress"></div>
   </div>
