@@ -65,6 +65,8 @@
 
   .media{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ECE6DA}
   .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media.frame{display:block}
+  .media iframe{width:100%;height:100%;border:0;display:block;background:#0d0c0b}
   .media.stack{display:flex;flex-direction:column}
   .media.stack img{height:33.3333%}
   .media .ph{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.9;padding:30px}
@@ -149,7 +151,7 @@
 
       <!-- 01 NOW -->
       <section class="post" data-tab="cv">
-        <div class="media"><img src="https://cdn.shopify.com/app-store/listing_images/4ad495b5cf0e0c7eeabc9478504e3880/icon/COveiNGv0ZIDEAE=.png" alt="Intellecta"></div>
+        <div class="media"><img src="assets/intellecta/intellecta-shopify.webp" alt="Intellecta on the Shopify App Store"></div>
         <div class="scrim"></div>
         <div class="caption">
           <div class="eyebrow">Now · 2023 → Present</div>
@@ -197,22 +199,29 @@
         </div>
       </section>
 
-      <!-- 04 TELEPATHIC INSTRUMENTS -->
+      <!-- 04 TELEPATHIC INSTRUMENTS · SAVE SOUND -->
       <section class="post dark" data-tab="projects">
-        <div class="media"><div class="ph">DROP VISUAL · telepathic.jpg</div></div>
+        <div class="media frame"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div>
         <div class="scrim"></div>
         <div class="caption">
           <div class="eyebrow">Side project · Music tech</div>
           <span class="status proto">Prototype</span>
           <h2 class="title">Telepathic<br><em>Instruments</em></h2>
-          <div class="handle">play by intent · karaoke mode</div>
-          <p class="desc">[ONE-LINE DESCRIPTION — replace with what it actually does.]</p>
-          <a class="cta" href="#" target="_blank" rel="noopener">Watch demo →</a>
+          <div class="handle">instrument onboarding · save your sound</div>
+          <p class="desc">Capture a sound and teach the instrument to play it back by intent. Live demo runs right here.</p>
         </div>
-        <div class="rail">
-          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
-          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
-          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+      </section>
+
+      <!-- 04b TELEPATHIC INSTRUMENTS · KARAOKE -->
+      <section class="post dark" data-tab="projects">
+        <div class="media frame"><iframe src="https://orchid-agent.vercel.app/demo/karaoke" title="Telepathic Instruments — Karaoke demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Side project · Music tech</div>
+          <span class="status proto">Prototype</span>
+          <h2 class="title">Karaoke<br><em>Mode</em></h2>
+          <div class="handle">play by intent · sing the song</div>
+          <p class="desc">Follow the song and play along — the live karaoke demo runs right here.</p>
         </div>
       </section>
 
@@ -232,32 +241,6 @@
           <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
           <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
           <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
-        </div>
-      </section>
-
-      <!-- 06 CHAT ONBOARDING -->
-      <section class="post" data-tab="projects">
-        <div class="media"><div class="ph">[ optional visual · onboarding.jpg ]</div></div>
-        <div class="scrim"></div>
-        <div class="caption">
-          <div class="eyebrow">Side project · Product</div>
-          <span class="status concept">Concept</span>
-          <h2 class="title">Chat<br><em>Onboarding</em></h2>
-          <div class="handle">conversational setup</div>
-          <p class="desc">[ONE-LINE DESCRIPTION — replace with what it onboards people into and why it beats a form.]</p>
-          <div class="tags"><span>UX</span><span>Conversational</span></div>
-        </div>
-      </section>
-
-      <!-- 07 THE ROLE -->
-      <section class="post" data-tab="cv">
-        <div class="media"><div class="ph"></div></div>
-        <div class="scrim"></div>
-        <div class="caption">
-          <div class="eyebrow">If I join · first 90 days</div>
-          <h2 class="title">What I'd<br><em>run here</em></h2>
-          <p class="desc" style="max-width:34ch">One source of truth for projects. Clean geo &amp; analytics reporting for clients. Real finance dashboards for the founders. The operating layer — built without slowing the creative work.</p>
-          <div class="tags"><span>Project tracking</span><span>Client reporting</span><span>Finance views</span></div>
         </div>
       </section>
 
@@ -286,7 +269,6 @@
           <div class="eyebrow">Track record</div>
           <h2 class="title" style="font-size:clamp(28px,8vw,38px)">Where I've<br><em>built before</em></h2>
           <p class="desc" style="max-width:34ch;color:rgba(250,248,243,.85);font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.9">
-            <b style="color:#C4441F">22–24</b> Jotelulu — grew PT market 1→7<br>
             <b style="color:#C4441F">2021</b> Capgemini — insurance backend<br>
             <b style="color:#C4441F">20–21</b> SPMS Min. Saúde — teleconsults<br>
             <b style="color:#C4441F">19–20</b> Accenture — fullstack, energy
