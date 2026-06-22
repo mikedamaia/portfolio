@@ -157,6 +157,28 @@
   .post.demo .title{font-size:clamp(26px,7vw,34px)}
   .post.demo .desc{margin-left:auto;margin-right:auto}
   @media(max-height:680px){.device{height:50dvh}}
+
+  /* --- Logo lockup (Intellecta × Shopify) + product / service cards --- */
+  .post.brandcard .caption{padding:0 22px 30px}
+  .lockup{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px;padding-top:17%;
+          background:radial-gradient(120% 80% at 50% 26%, #232a31 0%, #15120d 58%, #0d0c0b 100%)}
+  .lockup .marks{display:flex;align-items:center;gap:22px}
+  .lockup .marks img.ico{width:76px;height:76px;display:block;border-radius:18px}
+  .lockup .marks svg{width:60px;height:60px;display:block}
+  .lockup .marks .x{font-family:'Fraunces',serif;font-style:italic;font-size:30px;color:rgba(250,248,243,.45)}
+  .lockup .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,248,243,.55)}
+
+  .duo{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+  .duo .card{border:1px solid rgba(250,248,243,.18);border-radius:4px;padding:11px 13px;text-align:left;background:rgba(250,248,243,.03)}
+  .duo .card .pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+  .duo .card h3{margin-top:3px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--paper)}
+  .duo .card p{margin-top:3px;font-size:12px;line-height:1.4;color:rgba(250,248,243,.72)}
+
+  .svc{margin-top:14px;display:flex;flex-direction:column;gap:11px;max-width:33ch}
+  .svc li{list-style:none;display:flex;gap:11px;align-items:flex-start}
+  .svc li .b{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--red);padding-top:2px}
+  .svc li .tx{font-size:13px;line-height:1.45;color:rgba(250,248,243,.85)}
+  .svc li .tx b{color:var(--paper);font-weight:700}
 </style>
 </head>
 <body>
@@ -188,6 +210,62 @@
           <p class="desc">Building AI tooling and automation for e-commerce and SMB clients — product strategy, proposals, and the systems behind them.</p>
           <div class="tags"><span>AI agents</span><span>Product</span><span>Client work</span></div>
           <a class="cta" href="https://intellecta.io" target="_blank" rel="noopener">Visit intellecta.io →</a>
+        </div>
+      </section>
+
+      <!-- 01b INTELLECTA × SHOPIFY · AI COPYWRITER + AI CHATBOT -->
+      <section class="post dark brandcard" data-tab="projects">
+        <div class="media">
+          <div class="lockup">
+            <div class="marks">
+              <img class="ico" src="assets/intellecta/intellecta-icon.svg" alt="Intellecta">
+              <span class="x">×</span>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shopify"><path fill="#7AB55C" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"/></svg>
+            </div>
+            <span class="lbl">Live on the Shopify App Store</span>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Intellecta · Shopify App Store</div>
+          <span class="status live">Live</span>
+          <h2 class="title" style="font-size:clamp(27px,7.5vw,37px)">AI Agents<br><em>for Shopify</em></h2>
+          <div class="duo">
+            <div class="card">
+              <span class="pill">AI Copywriter</span>
+              <h3>SEO content on autopilot</h3>
+              <p>Generates product descriptions and store copy, tuned for search and on-brand.</p>
+            </div>
+            <div class="card">
+              <span class="pill">AI Chatbot</span>
+              <h3>Conversational AI that sells</h3>
+              <p>Answers shoppers and handles support 24/7 — converting questions into orders.</p>
+            </div>
+          </div>
+          <a class="cta" href="https://intellecta.io" target="_blank" rel="noopener">See the apps →</a>
+        </div>
+      </section>
+
+      <!-- 01c INTELLECTA · CUSTOM SERVICES -->
+      <section class="post dark brandcard" data-tab="projects">
+        <div class="media">
+          <div class="lockup">
+            <div class="marks">
+              <img class="ico" src="assets/intellecta/intellecta-icon.svg" alt="Intellecta">
+            </div>
+            <span class="lbl">Bespoke client builds</span>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Intellecta · Custom work</div>
+          <span class="status proto">Custom</span>
+          <h2 class="title" style="font-size:clamp(27px,7.5vw,37px)">Custom<br><em>AI Services</em></h2>
+          <div class="handle">scoped per client · shipped end-to-end</div>
+          <ul class="svc">
+            <li><span class="b">01</span><span class="tx"><b>Data migration</b> — moving catalog &amp; customer data at scale for <b>Sigvaris</b>.</span></li>
+            <li><span class="b">02</span><span class="tx"><b>Competitor price research</b> — automated price intelligence for e-commerce electronics clients.</span></li>
+          </ul>
         </div>
       </section>
 
@@ -239,22 +317,35 @@
         </div>
       </section>
 
-      <!-- 05 AI PODCAST STUDIO -->
+      <!-- 05 THE LAB · AI PODCAST STUDIO -->
       <section class="post dark" data-tab="projects">
         <div class="media"><div class="ph">DROP VISUAL · aipodcast.jpg</div></div>
         <div class="scrim"></div>
         <div class="caption">
-          <div class="eyebrow">Side project · Voice AI</div>
-          <span class="status proto">Prototype</span>
+          <div class="eyebrow">The Lab · Experimental</div>
+          <span class="status proto">Experiment</span>
           <h2 class="title">AI Podcast<br><em>Studio</em></h2>
           <div class="handle">voice clones · auto production</div>
-          <p class="desc">[ONE-LINE DESCRIPTION — replace. The one that speaks straight to a podcast-first agency.]</p>
+          <p class="desc">Cloned voices turn a script into a finished two-host episode — an experiment in fully automated audio production.</p>
           <a class="cta" href="#" target="_blank" rel="noopener">Listen to a sample →</a>
         </div>
         <div class="rail">
           <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
           <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
           <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+        </div>
+      </section>
+
+      <!-- 06 THE LAB · MOVIE PARALLEL UNIVERSE -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><div class="ph">DROP VISUAL · parallel-universe.jpg</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">The Lab · Experimental</div>
+          <span class="status concept">Concept</span>
+          <h2 class="title">Parallel<br><em>Universe</em></h2>
+          <div class="handle">agent swarm · simulated endings</div>
+          <p class="desc">A swarm of AI agents runs a film as a simulation — each plays a character and improvises, branching the plot to see which ending the story converges on.</p>
         </div>
       </section>
 
