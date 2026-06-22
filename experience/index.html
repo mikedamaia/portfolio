@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Miguel Pereira — A Timeline</title>
+<meta name="description" content="An interactive, temporal walk through Miguel Pereira's background — operator and studio, in parallel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --ink:#16130F;
+    --red:#C4441F;       /* operator accent */
+    --gold:#E8B04B;      /* studio accent */
+    --grey:#9A9081;
+    --line:rgba(250,248,243,.14);
+    --bg:#0d0c0b;
+    --accent:var(--red);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:var(--bg);
+    color:var(--paper);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+  .app{
+    position:fixed;inset:0;
+    display:grid;
+    grid-template-rows:auto 1fr auto auto;
+    /* a slow accent glow that re-tints per era */
+    background:
+      radial-gradient(120% 90% at 50% -10%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 55%),
+      radial-gradient(100% 70% at 50% 120%, #1c1a17 0%, var(--bg) 60%);
+    transition:background .8s ease;
+  }
+
+  /* ---------- header ---------- */
+  .bar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:max(16px,env(safe-area-inset-top)) clamp(16px,4vw,40px) 14px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    z-index:6;
+  }
+  .bar a{opacity:.7;transition:opacity .2s}
+  .bar a:hover{opacity:1}
+  .brand{opacity:.9;letter-spacing:.1em}
+  .brand b{color:var(--accent);font-weight:700;transition:color .6s}
+  .bar .say{color:var(--accent);opacity:.95;transition:color .6s}
+
+  /* ---------- stage ---------- */
+  .stagewrap{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0}
+  .bigyear{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(160px,42vw,440px);line-height:1;
+    color:rgba(250,248,243,.045);letter-spacing:-.03em;white-space:nowrap;
+    pointer-events:none;user-select:none;z-index:0;transition:opacity .4s;
+  }
+  .bigyear.pulse{animation:yearpulse .6s ease}
+  @keyframes yearpulse{0%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}100%{opacity:1;transform:translate(-50%,-54%) scale(1)}}
+
+  .stage{
+    position:relative;z-index:2;width:min(680px,92vw);
+    padding:0 6px;text-align:center;
+    opacity:0;transform:translateY(16px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .stage.in{opacity:1;transform:none}
+  .stage > *{transition:opacity .5s ease, transform .5s ease}
+
+  .lane{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;transition:color .6s;
+  }
+  .lane .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);transition:background .6s,box-shadow .6s}
+  .era{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:6px}
+  .title{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.98;font-size:clamp(40px,9vw,76px)}
+  .title em{font-style:italic;font-weight:400;color:var(--accent);transition:color .6s}
+  .org{margin-top:16px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.02em}
+  .org span{color:var(--grey);font-weight:400}
+  .blurb{margin:16px auto 0;font-size:clamp(15px,2.2vw,18px);line-height:1.55;color:rgba(250,248,243,.86);max-width:46ch}
+
+  .counter{margin-top:22px;display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+  .counter .num{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,8vw,64px);line-height:1;color:var(--accent);transition:color .6s}
+  .counter .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+
+  .tags{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .tags span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.03em;padding:6px 11px;border:1px solid var(--line);color:rgba(250,248,243,.78);border-radius:2px}
+  .cta{
+    margin-top:24px;display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    padding:12px 20px;background:var(--accent);color:var(--ink);font-weight:700;border-radius:3px;
+    transition:transform .15s ease, background .6s;
+  }
+  .cta:hover{transform:translateY(-2px)}
+  .links{margin-top:22px;display:flex;gap:10px;justify-content:center}
+  .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--line);border-radius:2px;transition:border-color .2s,color .2s}
+  .links a:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---------- timeline ---------- */
+  .timeline{position:relative;z-index:4;padding:0 clamp(14px,4vw,40px) 4px}
+  .laneTags{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-bottom:2px}
+  .laneTags .op{color:color-mix(in srgb,var(--red) 80%,var(--paper))}
+  .laneTags .st{color:color-mix(in srgb,var(--gold) 80%,var(--paper))}
+
+  .trackscroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
+  .trackscroll::-webkit-scrollbar{display:none}
+  .trackscroll.dragging{cursor:grabbing}
+  .track{
+    position:relative;height:118px;min-width:560px;
+    touch-action:pan-x;
+  }
+  .axis{position:absolute;left:0;right:0;top:50%;height:2px;background:linear-gradient(90deg,transparent,var(--line) 8%,var(--line) 92%,transparent);transform:translateY(-50%)}
+  .axisfill{position:absolute;left:0;top:50%;height:2px;background:linear-gradient(90deg,var(--gold),var(--red));transform:translateY(-50%);width:0;transition:width .45s ease;box-shadow:0 0 12px rgba(196,68,31,.5)}
+
+  .playhead{position:absolute;top:8px;bottom:8px;width:2px;background:var(--paper);left:0;transform:translateX(-50%);transition:left .45s cubic-bezier(.6,.05,.2,1);box-shadow:0 0 16px rgba(250,248,243,.6);z-index:3}
+  .playhead::before{content:"";position:absolute;top:-3px;left:50%;width:9px;height:9px;border-radius:50%;background:var(--paper);transform:translateX(-50%);box-shadow:0 0 14px rgba(250,248,243,.8)}
+  .playhead::after{content:"";position:absolute;bottom:-3px;left:50%;width:9px;height:9px;border-radius:50%;background:var(--paper);transform:translateX(-50%);box-shadow:0 0 14px rgba(250,248,243,.8)}
+
+  .node{
+    position:absolute;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    z-index:2;padding:6px;
+  }
+  .node .pin{width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid var(--grey);transition:all .25s ease}
+  .node .yr{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;color:var(--grey);white-space:nowrap;transition:color .25s}
+  .node .nm{display:none}
+  .node.op{flex-direction:column}
+  .node.op .yr{order:2}
+  .node.st{flex-direction:column-reverse}
+  .node.st .yr{order:2}
+  .node.op .pin{border-color:color-mix(in srgb,var(--red) 60%,var(--grey))}
+  .node.st .pin{border-color:color-mix(in srgb,var(--gold) 60%,var(--grey))}
+  .node:hover .pin{transform:scale(1.25)}
+  .node:hover .yr{color:var(--paper)}
+  .node.op.active .pin{background:var(--red);border-color:var(--red);box-shadow:0 0 0 4px rgba(196,68,31,.25),0 0 18px var(--red)}
+  .node.st.active .pin{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(232,176,75,.25),0 0 18px var(--gold)}
+  .node.active .yr{color:var(--paper);font-weight:700}
+  .node.active .pin{animation:ping 1.8s ease-out infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(250,248,243,.35),0 0 18px var(--accent)}70%{box-shadow:0 0 0 10px rgba(250,248,243,0),0 0 18px var(--accent)}100%{box-shadow:0 0 0 0 rgba(250,248,243,0),0 0 18px var(--accent)}}
+
+  /* floating label tooltip on the active/hover node */
+  .node .tip{
+    position:absolute;left:50%;transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em;
+    white-space:nowrap;color:var(--paper);background:rgba(13,12,11,.9);border:1px solid var(--line);
+    padding:4px 8px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .2s;
+  }
+  .node.op .tip{bottom:calc(100% + 2px)}
+  .node.st .tip{top:calc(100% + 2px)}
+  .node:hover .tip{opacity:1}
+
+  /* ---------- controls ---------- */
+  .controls{
+    display:flex;align-items:center;gap:14px;
+    padding:6px clamp(16px,4vw,40px) max(18px,env(safe-area-inset-bottom));
+    z-index:6;
+  }
+  .ctrl{
+    width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;transition:all .18s ease;flex:0 0 auto;
+  }
+  .ctrl:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+  .ctrl:active{transform:scale(.92)}
+  .ctrl svg{width:18px;height:18px;fill:currentColor}
+  .play{
+    display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 20px;border-radius:24px;
+    border:1px solid var(--accent);color:var(--accent);font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;transition:all .18s ease;flex:0 0 auto;
+  }
+  .play:hover{background:var(--accent);color:var(--ink)}
+  .play.on{background:var(--accent);color:var(--ink)}
+  .play svg{width:14px;height:14px;fill:currentColor}
+
+  .progress{flex:1;display:flex;align-items:center;gap:12px;min-width:0}
+  .progress .barwrap{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden;min-width:0}
+  .progress .fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--red));transition:width .45s ease}
+  .progress .idx{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--grey);flex:0 0 auto}
+
+  /* hint */
+  .hint{
+    position:fixed;left:50%;bottom:120px;transform:translateX(-50%);z-index:7;
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:rgba(250,248,243,.7);display:flex;align-items:center;gap:8px;pointer-events:none;
+    transition:opacity .5s;animation:bob 2s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateX(0)}50%{transform:translateX(-50%) translateX(7px)}}
+
+  @media (max-width:720px){
+    .stage{width:94vw}
+    .blurb{max-width:34ch}
+    .bigyear{font-size:34vw;transform:translate(-50%,-58%)}
+    .controls{gap:10px}
+    .play{padding:0 14px}
+    .ctrl{width:40px;height:40px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <header class="bar">
+    <a class="back" href="../">← Feed</a>
+    <div class="brand">Miguel Pereira · <b>Timeline</b></div>
+    <a class="say" href="https://www.linkedin.com/in/meet-miguel-pereira" target="_blank" rel="noopener">Let’s talk →</a>
+  </header>
+
+  <div class="stagewrap">
+    <div class="bigyear" id="bigYear">’16</div>
+    <section class="stage" id="stage" aria-live="polite">
+      <div class="lane" id="lane"><span class="dot"></span><span id="laneName">Operator</span></div>
+      <div class="era" id="era">Foundations</div>
+      <h1 class="title" id="title">Marketing</h1>
+      <div class="org" id="org"></div>
+      <p class="blurb" id="blurb"></p>
+      <div class="counter" id="counter" hidden><span class="num" id="counterNum">0</span><span class="lbl" id="counterLbl"></span></div>
+      <div class="tags" id="tags"></div>
+      <a class="cta" id="cta" target="_blank" rel="noopener" hidden></a>
+      <div class="links" id="links" hidden>
+        <a href="https://www.linkedin.com/in/meet-miguel-pereira" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener">Spotify</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="timeline">
+    <div class="laneTags"><span class="op">↑ Operator</span><span class="st">↓ Studio</span></div>
+    <div class="trackscroll" id="trackscroll">
+      <div class="track" id="track">
+        <div class="axis"></div>
+        <div class="axisfill" id="axisfill"></div>
+        <div class="playhead" id="playhead"></div>
+        <!-- nodes injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl" id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7z"/></svg></button>
+    <button class="play" id="play" aria-label="Play timeline"><svg id="playIcon" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg><span id="playLabel">Play</span></button>
+    <button class="ctrl" id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7z"/></svg></button>
+    <div class="progress">
+      <div class="barwrap"><div class="fill" id="fill"></div></div>
+      <div class="idx" id="idx">01 / 11</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="hint" id="hint">Scroll · drag · ▶ play <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+<script>
+/* ------------------------------------------------------------------ *
+ * The background, chronologically. Two lanes:
+ *   operator = the career thread, studio = the music / maker thread.
+ * `year` is used only for position on the axis. Early dates (IPAM,
+ * Ano 2000, music) are approximate — easy to fine-tune here.
+ * ------------------------------------------------------------------ */
+const MOMENTS = [
+  { id:'ipam', lane:'operator', year:2016, era:'Foundations', title:'Marketing<br><em>Management</em>',
+    org:'IPAM · <span>Portugal</span>',
+    blurb:'Studied Marketing Management — brand, positioning, and how a commercial story actually moves people. The lens behind everything that came after.',
+    tags:['Marketing','Brand','Strategy'] },
+
+  { id:'ano2000', lane:'operator', year:2017.4, era:'Foundations · while studying', title:'Export<br><em>Manager</em>',
+    org:'Ano 2000 · <span>Africa markets</span>',
+    blurb:'Ran exports into African markets while still at university — first taste of building a commercial operation across borders, languages and logistics. Sold before I built.',
+    tags:['Exports','Africa','B2B','Negotiation'] },
+
+  { id:'accenture', lane:'operator', year:2019.4, era:'2019 → 2020', title:'Fullstack<br><em>Engineer</em>',
+    org:'Accenture · <span>Energy sector</span>',
+    blurb:'Switched tracks into software — shipped fullstack features for energy-sector clients. Learned to build the systems, not just sell them.',
+    tags:['Fullstack','Energy','Delivery'] },
+
+  { id:'spms', lane:'operator', year:2020.5, era:'2020 → 2021', title:'Teleconsultation<br><em>Platforms</em>',
+    org:'SPMS · <span>Min. Saúde, Portugal</span>',
+    blurb:'Built telehealth / teleconsultation systems for the Portuguese Ministry of Health — public-sector software at national scale, exactly when it mattered most.',
+    tags:['Healthtech','Public sector','Scale'] },
+
+  { id:'capgemini', lane:'operator', year:2021.3, era:'2021', title:'Insurance<br><em>Backend</em>',
+    org:'Capgemini',
+    blurb:'Backend engineering for regulated insurance platforms — the deep, reliable plumbing behind products that can’t go down.',
+    tags:['Backend','Insurance','Systems'] },
+
+  { id:'mikep', lane:'studio', year:2021.8, era:'Solo · Independent', title:'Mike <em>Fkn P</em>',
+    org:'Solo project · <span>with animation designers</span>',
+    blurb:'Independent solo music, built with designers from animation — no label scaffolding, just the work and the people around it.',
+    tags:['Solo','Independent','Visual'],
+    cta:{ href:'https://youtu.be/DeBfz3f87KI', label:'Watch on YouTube →' } },
+
+  { id:'jotelulu', lane:'operator', year:2022.6, era:'2022 → 2024', title:'<em>Jotelulu</em>',
+    org:'Cloud platform · <span>Portugal market</span>',
+    blurb:'Owned the Portuguese market end to end — sales, partnerships and the operating motion behind the expansion.',
+    tags:['Go-to-market','Partnerships','Ops'],
+    counter:{ to:7, label:'grew the market from 1 →' },
+    cta:{ href:'https://youtu.be/cQ7bsbMF2oI', label:'Watch the road show →' } },
+
+  { id:'scallywagg', lane:'studio', year:2023.4, era:'Released', title:'<em>Scallywagg</em>',
+    org:'Duo · with Beiro · <span>Lisbon ↔ Madrid</span>',
+    blurb:'Debut EP “This Is Scallywagg” with CRVVO Records & Universal Music Portugal. Rock with Arctic Monkeys, QOTSA and Royal Blood in the DNA.',
+    tags:['Rock','Universal Music','EP'],
+    cta:{ href:'https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1', label:'Listen on Spotify →' } },
+
+  { id:'intellecta', lane:'operator', year:2023.85, era:'2023 → Present', title:'Founder &<br><em>AI Architect</em>',
+    org:'Intellecta · <span>Madrid</span>',
+    blurb:'Building AI tooling and automation for e-commerce and SMB clients — product strategy, proposals, and the systems behind them.',
+    tags:['AI agents','Product','Automation'],
+    cta:{ href:'https://intellecta.io', label:'Visit intellecta.io →' } },
+
+  { id:'telepathic', lane:'studio', year:2025.2, era:'Side project · Music tech', title:'Telepathic<br><em>Instruments</em>',
+    org:'Prototype · <span>play by intent</span>',
+    blurb:'Where the operator and the musician finally meet: teach an instrument to play back a sound by intent. Live prototypes running today.',
+    tags:['Music tech','AI','Prototype'],
+    cta:{ href:'../', label:'See the live demos on the feed →' } },
+
+  { id:'cos', lane:'operator', year:2026, era:'Now · 2026', title:'Chief of<br><em>Staff</em>',
+    org:'Madrid · <span>PT · ES · EN</span>',
+    blurb:'Runs the operation. The marketing instinct, the engineer’s hands and the founder’s judgment — pointed at making the machine run quietly.',
+    tags:['Operations','Strategy','Leadership'],
+    links:true },
+];
+
+const MIN_Y = 2016, MAX_Y = 2026, PAD = 6;            // axis padding %
+const pct = (y) => PAD + ((y - MIN_Y) / (MAX_Y - MIN_Y)) * (100 - PAD * 2);
+
+const $ = (id) => document.getElementById(id);
+const app=$('app'), stage=$('stage'), bigYear=$('bigYear');
+const track=$('track'), trackscroll=$('trackscroll'), playhead=$('playhead'), axisfill=$('axisfill');
+const prefersReduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+let i = 0, playing = false, playTimer = null, counterRAF = null;
+
+/* ---- build the timeline nodes ---- */
+MOMENTS.forEach((m, k) => {
+  const n = document.createElement('button');
+  n.className = `node ${m.lane === 'operator' ? 'op' : 'st'}`;
+  n.style.left = pct(m.year) + '%';
+  n.style.top = m.lane === 'operator' ? '26%' : '74%';
+  const plain = m.title.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  n.innerHTML = `<span class="tip">${plain}</span><span class="pin"></span><span class="yr">${labelYear(m)}</span>`;
+  n.setAttribute('aria-label', plain);
+  n.addEventListener('click', () => { stop(); go(k); });
+  track.appendChild(n);
+});
+const nodes = [...track.querySelectorAll('.node')];
+
+function labelYear(m){
+  if (m.year < 2019) return '◦';                 // foundations: undated
+  return "'" + String(Math.floor(m.year)).slice(2);
+}
+
+/* ---- render a moment ---- */
+function go(idx, dir = 0){
+  i = (idx + MOMENTS.length) % MOMENTS.length;
+  const m = MOMENTS[i];
+  const studio = m.lane === 'studio';
+
+  // accent re-tint
+  app.style.setProperty('--accent', studio ? 'var(--gold)' : 'var(--red)');
+
+  // big watermark year
+  bigYear.textContent = m.year < 2019 ? '◦' : "’" + String(Math.floor(m.year)).slice(2);
+  if (!prefersReduced){ bigYear.classList.remove('pulse'); void bigYear.offsetWidth; bigYear.classList.add('pulse'); }
+
+  // stage content
+  $('laneName').textContent = studio ? 'Studio' : 'Operator';
+  $('era').textContent = m.era;
+  $('title').innerHTML = m.title;
+  $('org').innerHTML = m.org || '';
+  $('org').style.display = m.org ? '' : 'none';
+  $('blurb').textContent = m.blurb;
+
+  // tags
+  $('tags').innerHTML = (m.tags || []).map(t => `<span>${t}</span>`).join('');
+
+  // counter
+  const counter = $('counter');
+  if (m.counter){ counter.hidden = false; $('counterLbl').textContent = m.counter.label; countUp(m.counter.to); }
+  else { counter.hidden = true; if (counterRAF) cancelAnimationFrame(counterRAF); }
+
+  // cta
+  const cta = $('cta');
+  if (m.cta){ cta.hidden = false; cta.href = m.cta.href; cta.textContent = m.cta.label; }
+  else cta.hidden = true;
+
+  // contact links (final card)
+  $('links').hidden = !m.links;
+
+  // timeline state
+  nodes.forEach((n, k) => n.classList.toggle('active', k === i));
+  playhead.style.left = pct(m.year) + '%';
+  axisfill.style.width = pct(m.year) + '%';
+
+  // progress
+  $('fill').style.width = ((i) / (MOMENTS.length - 1)) * 100 + '%';
+  $('idx').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(MOMENTS.length).padStart(2, '0');
+
+  // keep active node in view on small screens
+  centerNode(i);
+
+  // stage enter animation
+  if (!prefersReduced){
+    stage.classList.remove('in'); void stage.offsetWidth; stage.classList.add('in');
+    stage.querySelectorAll('.lane,.era,.title,.org,.blurb,.counter,.tags,.cta,.links')
+      .forEach((el, idx2) => { el.style.transitionDelay = (idx2 * 35) + 'ms'; });
+  } else stage.classList.add('in');
+}
+
+function centerNode(idx){
+  const n = nodes[idx];
+  const sr = trackscroll.getBoundingClientRect();
+  const target = n.offsetLeft - sr.width / 2;
+  trackscroll.scrollTo({ left: target, behavior: prefersReduced ? 'auto' : 'smooth' });
+}
+
+/* ---- animated count-up ---- */
+function countUp(to){
+  const el = $('counterNum');
+  if (prefersReduced){ el.textContent = to; return; }
+  const start = performance.now(), dur = 850;
+  if (counterRAF) cancelAnimationFrame(counterRAF);
+  const tick = (now) => {
+    const p = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * to);
+    if (p < 1) counterRAF = requestAnimationFrame(tick);
+  };
+  counterRAF = requestAnimationFrame(tick);
+}
+
+/* ---- navigation ---- */
+const next = () => go(i + 1);
+const prev = () => go(i - 1);
+
+$('next').addEventListener('click', () => { stop(); next(); });
+$('prev').addEventListener('click', () => { stop(); prev(); });
+
+/* play / pause guided tour */
+function play(){
+  playing = true;
+  $('play').classList.add('on');
+  $('playLabel').textContent = 'Pause';
+  $('playIcon').innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+  clearInterval(playTimer);
+  playTimer = setInterval(() => {
+    if (i >= MOMENTS.length - 1){ stop(); return; }
+    next();
+  }, 3600);
+}
+function stop(){
+  playing = false;
+  $('play').classList.remove('on');
+  $('playLabel').textContent = 'Play';
+  $('playIcon').innerHTML = '<path d="M7 5l12 7-12 7z"/>';
+  clearInterval(playTimer);
+}
+$('play').addEventListener('click', () => playing ? stop() : (i >= MOMENTS.length - 1 ? (go(0), play()) : play()));
+
+/* keyboard */
+addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown'){ stop(); next(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp'){ stop(); prev(); e.preventDefault(); }
+  if (e.key === ' '){ playing ? stop() : play(); e.preventDefault(); }
+});
+
+/* wheel — convert vertical/horizontal scroll into time steps */
+let wheelLock = false;
+addEventListener('wheel', (e) => {
+  const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  if (Math.abs(d) < 8 || wheelLock) return;
+  stop();
+  d > 0 ? next() : prev();
+  wheelLock = true;
+  setTimeout(() => wheelLock = false, 480);
+}, { passive: true });
+
+/* swipe on the stage area */
+let tx = 0, ty = 0;
+const sw = $('app');
+sw.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+sw.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){ stop(); dx < 0 ? next() : prev(); }
+}, { passive: true });
+
+/* drag the playhead / scrub the axis */
+let scrubbing = false;
+function scrubTo(clientX){
+  const r = track.getBoundingClientRect();
+  const x = ((clientX - r.left) / r.width) * 100;
+  // nearest moment by axis position
+  let best = 0, bd = Infinity;
+  MOMENTS.forEach((m, k) => { const d = Math.abs(pct(m.year) - x); if (d < bd){ bd = d; best = k; } });
+  if (best !== i) go(best);
+}
+track.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('.node')) return;          // node handles its own click
+  scrubbing = true; stop(); trackscroll.classList.add('dragging');
+  track.setPointerCapture(e.pointerId); scrubTo(e.clientX); e.preventDefault();
+});
+track.addEventListener('pointermove', (e) => { if (scrubbing) scrubTo(e.clientX); });
+track.addEventListener('pointerup', () => { scrubbing = false; trackscroll.classList.remove('dragging'); });
+track.addEventListener('pointercancel', () => { scrubbing = false; trackscroll.classList.remove('dragging'); });
+
+/* dismiss the hint after first interaction */
+let hinted = false;
+function dismissHint(){ if (hinted) return; hinted = true; const h = $('hint'); h.style.opacity = '0'; setTimeout(() => h.remove(), 600); }
+['wheel','keydown','pointerdown','touchstart'].forEach(ev => addEventListener(ev, dismissHint, { once: true, passive: true }));
+
+/* boot */
+go(0);
+</script>
+</body>
+</html>
