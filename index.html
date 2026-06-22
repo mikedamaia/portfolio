@@ -162,24 +162,17 @@
   .post.demo .desc{margin-left:auto;margin-right:auto}
   @media(max-height:680px){.device .screen{height:50dvh}}
 
-  /* --- Orchid showcase: the real synth (hero) + the AI-guide demo phones --- */
-  .media.showcase{background:radial-gradient(125% 80% at 50% 16%, #2a2418 0%, #14110d 50%, #0b0a09 100%)}
-  /* the real Orchid synth — its own clear space up top, uncovered.
-     (.media .orchid-hw out-specifies the generic .media img cover rule.) */
-  .media .orchid-hw{
-    position:absolute;width:90%;height:auto;left:5%;top:9%;z-index:1;object-fit:contain;
-    border:1px solid rgba(250,248,243,.12);border-radius:10px;
-    transform:rotate(-1.5deg);filter:drop-shadow(0 16px 30px rgba(0,0,0,.55));
-  }
+  /* --- Orchid showcase: two phone mockups running the LIVE demo iframes --- */
+  .media.showcase{background:radial-gradient(125% 80% at 50% 18%, #2a2418 0%, #14110d 52%, #0b0a09 100%)}
   .ophones{position:absolute;inset:0;z-index:2}
   .ophone{
-    position:absolute;aspect-ratio:9 / 19.5;background:#060606;border-radius:20px;padding:5px;
-    box-shadow:0 22px 48px rgba(0,0,0,.6),0 0 0 1px rgba(250,248,243,.10);
+    position:absolute;aspect-ratio:9 / 19.5;background:#060606;border-radius:22px;padding:5px;
+    box-shadow:0 24px 52px rgba(0,0,0,.62),0 0 0 1px rgba(250,248,243,.10);
   }
-  .ophone .oscreen{position:relative;width:100%;height:100%;border-radius:16px;overflow:hidden;background:#0d0c0b}
-  .ophone .oscreen img{width:100%;height:100%;object-fit:cover;display:block}
-  .ophone.back{width:34%;left:9%;top:34%;transform:rotate(-5deg);z-index:2;filter:brightness(.85)}
-  .ophone.front{width:38%;right:8%;top:38%;transform:rotate(5deg);z-index:3}
+  .ophone .oscreen{position:relative;width:100%;height:100%;border-radius:17px;overflow:hidden;background:#0d0c0b}
+  .ophone .oscreen img,.ophone .oscreen iframe{width:100%;height:100%;object-fit:cover;border:0;display:block}
+  .ophone.back{width:43%;left:4%;top:6%;transform:rotate(-6deg);z-index:1;filter:brightness(.88)}
+  .ophone.front{width:52%;right:3%;top:14%;transform:rotate(4deg);z-index:2}
 </style>
 </head>
 <body>
@@ -203,10 +196,9 @@
       <!-- ORCHID · ONBOARDING + KARAOKE (combined) -->
       <section class="post dark" data-tab="projects">
         <div class="media showcase">
-          <img class="orchid-hw" src="assets/orchid/orchid-device.png" alt="Telepathic Instruments — Orchid synth">
           <div class="ophones">
-            <div class="ophone back"><div class="oscreen"><img src="assets/orchid/orchid-onb-2.jpg" alt="Orchid onboarding guide"></div></div>
-            <div class="ophone front"><div class="oscreen"><img src="assets/orchid/orchid-kar-2.jpg" alt="Orchid chord karaoke"></div></div>
+            <div class="ophone back"><div class="oscreen"><iframe src="https://orchid-agent.vercel.app/demo/karaoke" title="Orchid — Karaoke demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
+            <div class="ophone front"><div class="oscreen"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Orchid — onboarding demo (live Orchid)" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
           </div>
         </div>
         <div class="scrim"></div>
