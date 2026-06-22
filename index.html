@@ -129,6 +129,34 @@
   .post.hero .title{font-size:clamp(44px,13vw,60px)}
   .post.hero .desc{margin-left:auto;margin-right:auto;max-width:32ch}
   .post.hero .tags{justify-content:center}
+
+  /* --- Live demo posts: the real app shown inside a nested device frame, so
+         the whole demo screen is visible instead of being cropped behind the
+         caption scrim. The feed JS keys off .post / data-tab, so the extra
+         `demo` class is presentation-only. --- */
+  .post.demo{
+    justify-content:center;align-items:center;gap:24px;
+    padding:62px 20px 26px;background:#16130f;text-align:center;
+  }
+  .post.demo .scrim{display:none}
+  .device{
+    position:relative;flex:0 0 auto;
+    height:min(56dvh,520px);aspect-ratio:9 / 19.5;
+    padding:9px;border-radius:34px;background:#050505;
+    box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 2px #2a2724,inset 0 0 0 1px rgba(250,248,243,.07);
+  }
+  /* Notch hanging from the top bezel over the screen — the usual phone read. */
+  .device::before{
+    content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:36%;height:15px;background:#050505;border-radius:0 0 12px 12px;z-index:2;
+  }
+  .device .screen{position:relative;width:100%;height:100%;border-radius:26px;overflow:hidden;background:#0d0c0b}
+  .device .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#0d0c0b}
+  .post.demo .caption{position:relative;z-index:20;padding:0;max-width:34ch}
+  .post.demo .eyebrow{margin-bottom:10px}
+  .post.demo .title{font-size:clamp(26px,7vw,34px)}
+  .post.demo .desc{margin-left:auto;margin-right:auto}
+  @media(max-height:680px){.device{height:50dvh}}
 </style>
 </head>
 <body>
@@ -200,9 +228,8 @@
       </section>
 
       <!-- 04 TELEPATHIC INSTRUMENTS · SAVE SOUND -->
-      <section class="post dark" data-tab="projects">
-        <div class="media frame"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div>
-        <div class="scrim"></div>
+      <section class="post demo dark" data-tab="projects">
+        <div class="device"><div class="screen"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
         <div class="caption">
           <div class="eyebrow">Side project · Music tech</div>
           <span class="status proto">Prototype</span>
@@ -213,9 +240,8 @@
       </section>
 
       <!-- 04b TELEPATHIC INSTRUMENTS · KARAOKE -->
-      <section class="post dark" data-tab="projects">
-        <div class="media frame"><iframe src="https://orchid-agent.vercel.app/demo/karaoke" title="Telepathic Instruments — Karaoke demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div>
-        <div class="scrim"></div>
+      <section class="post demo dark" data-tab="projects">
+        <div class="device"><div class="screen"><iframe src="https://orchid-agent.vercel.app/demo/karaoke" title="Telepathic Instruments — Karaoke demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
         <div class="caption">
           <div class="eyebrow">Side project · Music tech</div>
           <span class="status proto">Prototype</span>
