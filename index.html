@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>@miguel.pereira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --ink:#16130F;
+    --red:#C4441F;
+    --grey:#6E665B;
+    --line:#DAD3C6;
+    --frameW:430px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:#0d0c0b;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  ::selection{background:var(--red);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+
+  .stage{
+    height:100vh;height:100dvh;width:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 80% at 50% 0%, #1c1a17 0%, #0d0c0b 60%);
+  }
+  .phone{
+    position:relative;
+    width:100%;max-width:var(--frameW);
+    height:100vh;height:100dvh;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  @media(min-width:480px){
+    .phone{
+      height:92vh;height:92dvh;max-height:920px;border-radius:30px;
+      box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 10px #000,0 0 0 11px #2a2724;
+    }
+  }
+
+  .feed{
+    height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;
+    scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+  }
+  .feed::-webkit-scrollbar{display:none}
+
+  .post{
+    position:relative;height:100%;width:100%;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  }
+  .post::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(22,19,15,.035) 1px,transparent 1px);
+    background-size:4px 4px;mix-blend-mode:multiply;
+  }
+
+  .media{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ECE6DA}
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media .ph{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.9;padding:30px}
+  .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(250,248,243,.97) 0%,rgba(250,248,243,.85) 22%,rgba(250,248,243,.1) 50%,rgba(250,248,243,0) 75%)}
+  .post.dark .scrim{background:linear-gradient(to top,rgba(13,12,11,.95) 0%,rgba(13,12,11,.7) 28%,rgba(13,12,11,.05) 60%,transparent 80%)}
+  .post.dark .caption,.post.dark .caption *{color:var(--paper)}
+  .post.dark .desc{color:rgba(250,248,243,.82)}
+
+  .topbar{
+    position:absolute;top:0;left:0;right:0;z-index:30;
+    display:flex;align-items:center;justify-content:center;gap:22px;padding:18px 16px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);
+    text-shadow:0 1px 6px rgba(0,0,0,.4);
+  }
+  .topbar .t{opacity:.55;cursor:pointer}
+  .topbar .t.on{opacity:1;position:relative}
+  .topbar .t.on::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--red)}
+
+  .caption{position:relative;z-index:20;padding:0 84px 30px 22px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+  .title{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.95;font-size:clamp(34px,9vw,46px)}
+  .title em{font-style:italic;font-weight:400;color:var(--red)}
+  .handle{margin-top:16px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.02em}
+  .desc{margin-top:9px;font-size:15px;line-height:1.5;color:var(--grey);max-width:30ch}
+  .status{display:inline-block;margin-top:14px;margin-right:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px}
+  .status.live{background:var(--red);color:var(--paper)}
+  .status.proto{background:var(--ink);color:var(--paper)}
+  .post.dark .status.proto{background:var(--paper);color:var(--ink)}
+  .status.concept{border:1px solid currentColor;opacity:.8}
+  .tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
+  .tags span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 10px;border:1px solid var(--line);color:var(--grey)}
+  .post.dark .tags span{border-color:rgba(250,248,243,.3);color:rgba(250,248,243,.7)}
+  .cta{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;background:var(--ink);color:var(--paper)}
+  .post.dark .cta{background:var(--red)}
+
+  .rail{position:absolute;right:12px;bottom:34px;z-index:25;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .rail .act{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+  .rail .act .ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(250,248,243,.12);border:1px solid rgba(250,248,243,.55);transition:transform .15s ease,background .15s ease}
+  .rail .act:active .ic{transform:scale(.9)}
+  .rail .act .ic svg{width:22px;height:22px;stroke:var(--paper)}
+  .rail .act .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--paper)}
+  .rail .act.liked .ic{background:var(--red);border-color:var(--red)}
+  .rail .act.liked .ic svg{fill:var(--paper)}
+  .rail .disc{width:48px;height:48px;border-radius:50%;border:2px solid var(--paper);overflow:hidden;margin-bottom:4px;background:var(--ink)}
+  .rail .disc svg{width:100%;height:100%;animation:spin 8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.rail .disc svg{animation:none}}
+
+  .progress{position:absolute;right:3px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:7px}
+  .progress .d{width:3px;height:14px;border-radius:2px;background:rgba(250,248,243,.25);transition:all .3s}
+  .progress .d.on{background:var(--red);height:24px}
+
+  .hint{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:20;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,248,243,.8);animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+  @media(prefers-reduced-motion:reduce){.hint{animation:none}}
+  .hint svg{width:20px;height:20px;stroke:rgba(250,248,243,.8)}
+
+  .post.hero{justify-content:center;text-align:center}
+  .post.hero .caption{padding:0 30px}
+  .post.hero .title{font-size:clamp(44px,13vw,60px)}
+  .post.hero .desc{margin-left:auto;margin-right:auto;max-width:32ch}
+  .post.hero .tags{justify-content:center}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="feed" id="feed">
+
+      <!-- 00 HERO -->
+      <section class="post hero dark" data-tab="profile">
+        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Chief of Staff · Madrid · 2026</div>
+          <h1 class="title">Miguel<br><em>Pereira</em></h1>
+          <p class="desc">Runs the operation. Comes from the studio. Swipe up to see how both are true.</p>
+          <div class="tags"><span>Operations</span><span>Independent music</span><span>PT·ES·EN</span></div>
+        </div>
+        <div class="hint"><span>Swipe up</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+      </section>
+
+      <!-- 01 NOW -->
+      <section class="post" data-tab="cv">
+        <div class="media"><div class="ph">[ optional visual · founder.jpg ]</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Now · 2023 → Present</div>
+          <h2 class="title">Founder &amp;<br><em>AI Architect</em></h2>
+          <div class="handle">@intellecta · Madrid</div>
+          <p class="desc">Building AI tooling and automation for e-commerce and SMB clients — product strategy, proposals, and the systems behind them.</p>
+          <div class="tags"><span>AI agents</span><span>Product</span><span>Client work</span></div>
+        </div>
+      </section>
+
+      <!-- 02 SCALLYWAGG -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.scdn.co/image/ab6761610000e5ebd11dda09c7185770fcb6b196" alt="Scallywagg"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · Released · Lisbon ↔ Madrid</div>
+          <h2 class="title">Scallywagg</h2>
+          <div class="handle">duo · Beiro &amp; Mike Fkn P</div>
+          <p class="desc">Debut EP "This Is Scallywagg" with CRVVO Records &amp; Universal Music Portugal. Rock — Arctic Monkeys, QOTSA, Royal Blood in the DNA. Working between Lisbon and Madrid.</p>
+          <a class="cta" href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener">Listen on Spotify →</a>
+        </div>
+        <div class="rail">
+          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
+          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">1.2k</div></div>
+          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+        </div>
+      </section>
+
+      <!-- 03 MIKE FKN P -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.ytimg.com/vi/DeBfz3f87KI/maxresdefault.jpg" alt="Mike Fkn P"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · Solo · Independent</div>
+          <h2 class="title">Mike <em>Fkn P</em></h2>
+          <div class="handle">solo project · with animation designers</div>
+          <p class="desc">[ONE-LINE DESCRIPTION — replace with what the project / this video is.] Built with designers from animation, no label scaffolding.</p>
+          <a class="cta" href="https://youtu.be/DeBfz3f87KI" target="_blank" rel="noopener">Watch on YouTube →</a>
+        </div>
+        <div class="rail">
+          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
+          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">940</div></div>
+          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+        </div>
+      </section>
+
+      <!-- 04 TELEPATHIC INSTRUMENTS -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><div class="ph">DROP VISUAL · telepathic.jpg</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Side project · Music tech</div>
+          <span class="status proto">Prototype</span>
+          <h2 class="title">Telepathic<br><em>Instruments</em></h2>
+          <div class="handle">play by intent · karaoke mode</div>
+          <p class="desc">[ONE-LINE DESCRIPTION — replace with what it actually does.]</p>
+          <a class="cta" href="#" target="_blank" rel="noopener">Watch demo →</a>
+        </div>
+        <div class="rail">
+          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
+          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
+          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+        </div>
+      </section>
+
+      <!-- 05 AI PODCAST STUDIO -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><div class="ph">DROP VISUAL · aipodcast.jpg</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Side project · Voice AI</div>
+          <span class="status proto">Prototype</span>
+          <h2 class="title">AI Podcast<br><em>Studio</em></h2>
+          <div class="handle">voice clones · auto production</div>
+          <p class="desc">[ONE-LINE DESCRIPTION — replace. The one that speaks straight to a podcast-first agency.]</p>
+          <a class="cta" href="#" target="_blank" rel="noopener">Listen to a sample →</a>
+        </div>
+        <div class="rail">
+          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
+          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
+          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
+        </div>
+      </section>
+
+      <!-- 06 CHAT ONBOARDING -->
+      <section class="post" data-tab="projects">
+        <div class="media"><div class="ph">[ optional visual · onboarding.jpg ]</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Side project · Product</div>
+          <span class="status concept">Concept</span>
+          <h2 class="title">Chat<br><em>Onboarding</em></h2>
+          <div class="handle">conversational setup</div>
+          <p class="desc">[ONE-LINE DESCRIPTION — replace with what it onboards people into and why it beats a form.]</p>
+          <div class="tags"><span>UX</span><span>Conversational</span></div>
+        </div>
+      </section>
+
+      <!-- 07 THE ROLE -->
+      <section class="post" data-tab="cv">
+        <div class="media"><div class="ph"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">If I join · first 90 days</div>
+          <h2 class="title">What I'd<br><em>run here</em></h2>
+          <p class="desc" style="max-width:34ch">One source of truth for projects. Clean geo &amp; analytics reporting for clients. Real finance dashboards for the founders. The operating layer — built without slowing the creative work.</p>
+          <div class="tags"><span>Project tracking</span><span>Client reporting</span><span>Finance views</span></div>
+        </div>
+      </section>
+
+      <!-- 08 TRACK RECORD -->
+      <section class="post dark" data-tab="cv">
+        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Track record</div>
+          <h2 class="title" style="font-size:clamp(28px,8vw,38px)">Where I've<br><em>built before</em></h2>
+          <p class="desc" style="max-width:34ch;color:rgba(250,248,243,.85);font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.9">
+            <b style="color:#C4441F">22–24</b> Jotelulu — grew PT market 1→7<br>
+            <b style="color:#C4441F">2021</b> Capgemini — insurance backend<br>
+            <b style="color:#C4441F">20–21</b> SPMS Min. Saúde — teleconsults<br>
+            <b style="color:#C4441F">19–20</b> Accenture — fullstack, energy
+          </p>
+        </div>
+      </section>
+
+      <!-- 09 CONTACT -->
+      <section class="post hero dark" data-tab="profile">
+        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Let's talk</div>
+          <h2 class="title">Make the<br><em>machine</em><br>run quietly.</h2>
+          <p class="desc">The operator who never forgets the creative side.</p>
+          <div class="tags" style="margin-top:22px">
+            <a href="https://www.linkedin.com/in/meet-miguel-pereira" target="_blank" rel="noopener"><span>LinkedIn</span></a>
+            <a href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener"><span>Spotify</span></a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="topbar" id="topbar">
+      <span class="t" data-go="profile">Profile</span>
+      <span class="t" data-go="cv">CV</span>
+      <span class="t" data-go="projects">Projects</span>
+    </div>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<script>
+  const feed=document.getElementById('feed');
+  const posts=[...feed.querySelectorAll('.post')];
+  const prog=document.getElementById('progress');
+  const tabs=[...document.querySelectorAll('.topbar .t')];
+  let idx=0;
+
+  posts.forEach((_,i)=>{const d=document.createElement('div');d.className='d'+(i===0?' on':'');prog.appendChild(d);});
+  const dots=[...prog.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        idx=posts.indexOf(e.target);
+        dots.forEach((d,k)=>d.classList.toggle('on',k===idx));
+        const tab=e.target.dataset.tab;
+        tabs.forEach(t=>t.classList.toggle('on',t.dataset.go===tab));
+      }
+    });
+  },{threshold:.6});
+  posts.forEach(p=>io.observe(p));
+
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    const target=posts.find(p=>p.dataset.tab===t.dataset.go);
+    if(target)target.scrollIntoView({behavior:'smooth'});
+  }));
+
+  feed.querySelectorAll('.act.like').forEach(a=>a.addEventListener('click',()=>a.classList.toggle('liked')));
+
+  let hinted=false;
+  feed.addEventListener('scroll',()=>{
+    if(!hinted){const h=document.querySelector('.hint');if(h){h.style.transition='opacity .4s';h.style.opacity='0';}hinted=true;}
+  });
+
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'){idx=Math.min(idx+1,posts.length-1);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){idx=Math.max(idx-1,0);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
+  });
+</script>
+</body>
+</html>
