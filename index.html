@@ -179,6 +179,11 @@
   .svc li .b{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--red);padding-top:2px}
   .svc li .tx{font-size:13px;line-height:1.45;color:rgba(250,248,243,.85)}
   .svc li .tx b{color:var(--paper);font-weight:700}
+
+  /* --- The Lab: text/diagram visuals (no screenshots) --- */
+  .labviz{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;
+          padding:62px 30px 0;background:radial-gradient(120% 75% at 50% 24%, #1e231b 0%, #15120d 58%, #0d0c0b 100%)}
+  .labviz svg{width:100%;max-width:300px;height:auto;overflow:visible}
 </style>
 </head>
 <body>
@@ -319,7 +324,40 @@
 
       <!-- 05 THE LAB · AI PODCAST STUDIO -->
       <section class="post dark" data-tab="projects">
-        <div class="media"><div class="ph">DROP VISUAL · aipodcast.jpg</div></div>
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="Pipeline: script to cloned voices to a finished episode">
+              <g fill="#16130f" stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <rect x="70" y="8" width="160" height="44" rx="8"/>
+                <rect x="70" y="100" width="160" height="44" rx="8"/>
+                <rect x="70" y="192" width="160" height="44" rx="8"/>
+              </g>
+              <g fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">
+                <text x="150" y="35">SCRIPT</text>
+                <text x="150" y="127">VOICE CLONES</text>
+                <text x="150" y="219">EPISODE</text>
+              </g>
+              <g stroke="#C4441F" stroke-width="1.5" fill="#C4441F">
+                <line x1="150" y1="52" x2="150" y2="92"/>
+                <polygon points="150,100 146,92 154,92"/>
+                <line x1="150" y1="144" x2="150" y2="184"/>
+                <polygon points="150,192 146,184 154,184"/>
+              </g>
+              <g stroke="rgba(250,248,243,.5)" stroke-width="2" stroke-linecap="round">
+                <line x1="92" y1="262" x2="92" y2="278"/>
+                <line x1="104" y1="256" x2="104" y2="284"/>
+                <line x1="116" y1="266" x2="116" y2="274"/>
+                <line x1="128" y1="250" x2="128" y2="290"/>
+                <line x1="140" y1="260" x2="140" y2="280"/>
+                <line x1="152" y1="246" x2="152" y2="294"/>
+                <line x1="164" y1="262" x2="164" y2="278"/>
+                <line x1="176" y1="254" x2="176" y2="286"/>
+                <line x1="188" y1="266" x2="188" y2="274"/>
+                <line x1="200" y1="258" x2="200" y2="282"/>
+              </g>
+            </svg>
+          </div>
+        </div>
         <div class="scrim"></div>
         <div class="caption">
           <div class="eyebrow">The Lab · Experimental</div>
@@ -338,7 +376,38 @@
 
       <!-- 06 THE LAB · MOVIE PARALLEL UNIVERSE -->
       <section class="post dark" data-tab="projects">
-        <div class="media"><div class="ph">DROP VISUAL · parallel-universe.jpg</div></div>
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="A film branches into a swarm of agents that converge on an ending">
+              <g stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <line x1="150" y1="56" x2="48" y2="122"/>
+                <line x1="150" y1="56" x2="116" y2="122"/>
+                <line x1="150" y1="56" x2="184" y2="122"/>
+                <line x1="150" y1="56" x2="252" y2="122"/>
+                <line x1="48" y1="156" x2="150" y2="228"/>
+                <line x1="116" y1="156" x2="150" y2="228"/>
+                <line x1="184" y1="156" x2="150" y2="228"/>
+                <line x1="252" y1="156" x2="150" y2="228"/>
+              </g>
+              <rect x="106" y="14" width="88" height="40" rx="8" fill="#16130f" stroke="rgba(250,248,243,.42)" stroke-width="1.5"/>
+              <text x="150" y="39" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">FILM</text>
+              <g fill="#16130f" stroke="#C4441F" stroke-width="1.5">
+                <circle cx="48" cy="138" r="17"/>
+                <circle cx="116" cy="138" r="17"/>
+                <circle cx="184" cy="138" r="17"/>
+                <circle cx="252" cy="138" r="17"/>
+              </g>
+              <g fill="#FAF8F3" font-size="12" text-anchor="middle">
+                <text x="48" y="142">A1</text>
+                <text x="116" y="142">A2</text>
+                <text x="184" y="142">A3</text>
+                <text x="252" y="142">A4</text>
+              </g>
+              <rect x="98" y="228" width="104" height="42" rx="8" fill="#C4441F"/>
+              <text x="150" y="254" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">ENDING</text>
+            </svg>
+          </div>
+        </div>
         <div class="scrim"></div>
         <div class="caption">
           <div class="eyebrow">The Lab · Experimental</div>
@@ -346,6 +415,48 @@
           <h2 class="title">Parallel<br><em>Universe</em></h2>
           <div class="handle">agent swarm · simulated endings</div>
           <p class="desc">A swarm of AI agents runs a film as a simulation — each plays a character and improvises, branching the plot to see which ending the story converges on.</p>
+        </div>
+      </section>
+
+      <!-- 07 THE LAB · VELOCITY OS -->
+      <section class="post dark" data-tab="projects">
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="Decision engine: business signals feed Velocity OS, which outputs the next move">
+              <g fill="#16130f" stroke="rgba(250,248,243,.3)" stroke-width="1.5">
+                <rect x="14" y="14" width="74" height="34" rx="7"/>
+                <rect x="113" y="14" width="74" height="34" rx="7"/>
+                <rect x="212" y="14" width="74" height="34" rx="7"/>
+              </g>
+              <g fill="#FAF8F3" font-size="11" text-anchor="middle" letter-spacing="1">
+                <text x="51" y="35">SALES</text>
+                <text x="150" y="35">COSTS</text>
+                <text x="249" y="35">STOCK</text>
+              </g>
+              <g stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <line x1="51" y1="48" x2="150" y2="112"/>
+                <line x1="150" y1="48" x2="150" y2="112"/>
+                <line x1="249" y1="48" x2="150" y2="112"/>
+              </g>
+              <rect x="86" y="112" width="128" height="52" rx="10" fill="#16130f" stroke="#C4441F" stroke-width="2"/>
+              <text x="150" y="135" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">VELOCITY</text>
+              <text x="150" y="152" fill="#C4441F" font-size="11" text-anchor="middle" letter-spacing="3">OS</text>
+              <g stroke="#C4441F" stroke-width="1.5" fill="#C4441F">
+                <line x1="150" y1="164" x2="150" y2="208"/>
+                <polygon points="150,216 146,208 154,208"/>
+              </g>
+              <rect x="78" y="216" width="144" height="44" rx="8" fill="#C4441F"/>
+              <text x="150" y="243" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">NEXT MOVE</text>
+            </svg>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">The Lab · Experimental</div>
+          <span class="status concept">Concept</span>
+          <h2 class="title">Velocity<br><em>OS</em></h2>
+          <div class="handle">decision engine · for SMBs</div>
+          <p class="desc">Pulls a small business's signals — sales, costs, inventory — into one model and recommends the next move, so owners decide with data instead of gut.</p>
         </div>
       </section>
 
