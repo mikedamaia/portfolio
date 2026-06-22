@@ -65,6 +65,8 @@
 
   .media{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ECE6DA}
   .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media.stack{display:flex;flex-direction:column}
+  .media.stack img{height:33.3333%}
   .media .ph{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.9;padding:30px}
   .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(250,248,243,.97) 0%,rgba(250,248,243,.85) 22%,rgba(250,248,243,.1) 50%,rgba(250,248,243,0) 75%)}
   .post.dark .scrim{background:linear-gradient(to top,rgba(13,12,11,.95) 0%,rgba(13,12,11,.7) 28%,rgba(13,12,11,.05) 60%,transparent 80%)}
@@ -261,7 +263,11 @@
 
       <!-- JOTELULU -->
       <section class="post dark" data-tab="cv">
-        <div class="media"><img src="https://i.ytimg.com/vi/cQ7bsbMF2oI/hqdefault.jpg" alt="Jotelulu"></div>
+        <div class="media stack">
+          <img src="assets/jotelulu/jotelulu-1.png" alt="Jotelulu Road Show">
+          <img src="assets/jotelulu/jotelulu-2.png" alt="Jotelulu Road Show">
+          <img src="assets/jotelulu/jotelulu-3.png" alt="Jotelulu Road Show">
+        </div>
         <div class="scrim"></div>
         <div class="caption">
           <div class="eyebrow">Experience · 2022 → 2024</div>
