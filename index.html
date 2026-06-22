@@ -250,6 +250,11 @@
               <h3>SEO content on autopilot</h3>
               <p>Generates product descriptions and store copy, tuned for search and on-brand.</p>
             </div>
+            <div class="card">
+              <span class="pill">AI Chatbot</span>
+              <h3>Conversational AI that sells</h3>
+              <p>Answers shoppers and handles support 24/7 — converting questions into orders.</p>
+            </div>
           </div>
           <a class="cta" href="https://intellecta.io" target="_blank" rel="noopener">See the apps →</a>
         </div>
@@ -347,7 +352,6 @@
           <h2 class="title">AI Podcast<br><em>Studio</em></h2>
           <div class="handle">voice clones · auto production</div>
           <p class="desc">Cloned voices turn a script into a finished two-host episode — an experiment in fully automated audio production.</p>
-          <a class="cta" href="#" target="_blank" rel="noopener">Listen to a sample →</a>
         </div>
       </section>
 
@@ -509,9 +513,8 @@
     </div>
 
     <div class="topbar" id="topbar">
-      <span class="t" data-go="profile">Profile</span>
-      <span class="t" data-go="cv">CV</span>
-      <span class="t" data-go="projects">Projects</span>
+      <a class="t on" href="index.html">Portfolio</a>
+      <a class="t" href="cv.html">CV</a>
     </div>
     <div class="progress" id="progress"></div>
   </div>
@@ -521,7 +524,6 @@
   const feed=document.getElementById('feed');
   const posts=[...feed.querySelectorAll('.post')];
   const prog=document.getElementById('progress');
-  const tabs=[...document.querySelectorAll('.topbar .t')];
   let idx=0;
 
   posts.forEach((_,i)=>{const d=document.createElement('div');d.className='d'+(i===0?' on':'');prog.appendChild(d);});
@@ -532,17 +534,10 @@
       if(e.isIntersecting){
         idx=posts.indexOf(e.target);
         dots.forEach((d,k)=>d.classList.toggle('on',k===idx));
-        const tab=e.target.dataset.tab;
-        tabs.forEach(t=>t.classList.toggle('on',t.dataset.go===tab));
       }
     });
   },{threshold:.6});
   posts.forEach(p=>io.observe(p));
-
-  tabs.forEach(t=>t.addEventListener('click',()=>{
-    const target=posts.find(p=>p.dataset.tab===t.dataset.go);
-    if(target)target.scrollIntoView({behavior:'smooth'});
-  }));
 
   feed.querySelectorAll('.act.like').forEach(a=>a.addEventListener('click',()=>a.classList.toggle('liked')));
 

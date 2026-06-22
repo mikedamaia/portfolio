@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Miguel Pereira · CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --ink:#16130F;
+    --red:#C4441F;
+    --grey:#6E665B;
+    --line:#DAD3C6;
+    --frameW:430px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:#0d0c0b;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  ::selection{background:var(--red);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+
+  .stage{
+    height:100vh;height:100dvh;width:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 80% at 50% 0%, #1c1a17 0%, #0d0c0b 60%);
+  }
+  .phone{
+    position:relative;
+    width:100%;max-width:var(--frameW);
+    height:100vh;height:100dvh;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  @media(min-width:480px){
+    .phone{
+      height:92vh;height:92dvh;max-height:920px;border-radius:30px;
+      box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 10px #000,0 0 0 11px #2a2724;
+    }
+  }
+
+  /* --- Shared header (identical to the Portfolio route) --- */
+  .topbar{
+    position:absolute;top:0;left:0;right:0;z-index:30;
+    display:flex;align-items:center;justify-content:center;gap:26px;padding:18px 16px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  }
+  .topbar .t{opacity:.5;cursor:pointer}
+  .topbar .t.on{opacity:1;position:relative}
+  .topbar .t.on::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--red)}
+
+  /* --- CV body --- */
+  .cv{
+    height:100%;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;
+    padding:78px 26px 48px;
+  }
+  .cv::-webkit-scrollbar{display:none}
+
+  .cvhead{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:24px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+  .cvhead h1{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.95;font-size:clamp(38px,12vw,52px)}
+  .cvhead .role{margin-top:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.02em;color:var(--ink)}
+  .cvhead .summary{margin-top:14px;font-size:14.5px;line-height:1.55;color:var(--grey)}
+  .links{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;padding:6px 11px;border:1px solid var(--line);color:var(--grey)}
+  .links a:hover{border-color:var(--red);color:var(--red)}
+
+  .block{margin-bottom:28px}
+  .block h2{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);margin-bottom:16px}
+  .role-item{display:flex;gap:14px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+  .role-item:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+  .role-item .yr{flex:0 0 70px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.5;color:var(--red);padding-top:3px}
+  .role-item .body h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:var(--ink)}
+  .role-item .body .org{font-size:13px;color:var(--grey);margin-top:1px}
+  .role-item .body p{margin-top:7px;font-size:13.5px;line-height:1.5;color:var(--grey)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chips span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;padding:6px 11px;border:1px solid var(--line);color:var(--grey)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+
+    <div class="topbar">
+      <a class="t" href="index.html">Portfolio</a>
+      <a class="t on" href="cv.html">CV</a>
+    </div>
+
+    <div class="cv">
+      <header class="cvhead">
+        <p class="eyebrow">Curriculum Vitae</p>
+        <h1>Miguel<br>Pereira</h1>
+        <p class="role">Founder &amp; AI Architect · Madrid</p>
+        <p class="summary">Builder and operator working across AI tooling and e-commerce automation — product strategy, the systems behind it, and the team motion to ship it. Independent musician on the other side of the desk.</p>
+        <div class="links">
+          <a href="https://intellecta.io" target="_blank" rel="noopener">intellecta.io ↗</a>
+          <a href="https://www.linkedin.com/in/meet-miguel-pereira" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener">Spotify ↗</a>
+        </div>
+      </header>
+
+      <section class="block">
+        <h2>Experience</h2>
+
+        <div class="role-item">
+          <div class="yr">2023<br>→ Now</div>
+          <div class="body">
+            <h3>Founder &amp; AI Architect</h3>
+            <div class="org">Intellecta · Madrid</div>
+            <p>Building AI tooling and automation for e-commerce and SMB clients — product strategy, proposals, and the systems behind them. Shipping AI agents live on the Shopify App Store.</p>
+          </div>
+        </div>
+
+        <div class="role-item">
+          <div class="yr">2022<br>→ 24</div>
+          <div class="body">
+            <h3>Jotelulu</h3>
+            <div class="org">Cloud platform · Portugal market</div>
+            <p>Grew the Portuguese market from 1 to 7 — sales, partnerships, and the operating motion behind the expansion.</p>
+          </div>
+        </div>
+
+        <div class="role-item">
+          <div class="yr">2021</div>
+          <div class="body">
+            <h3>Capgemini</h3>
+            <div class="org">Insurance · backend</div>
+            <p>Backend engineering on insurance systems.</p>
+          </div>
+        </div>
+
+        <div class="role-item">
+          <div class="yr">2020<br>→ 21</div>
+          <div class="body">
+            <h3>SPMS · Ministério da Saúde</h3>
+            <div class="org">Public health · teleconsultations</div>
+            <p>Worked on national teleconsultation systems.</p>
+          </div>
+        </div>
+
+        <div class="role-item">
+          <div class="yr">2019<br>→ 20</div>
+          <div class="body">
+            <h3>Accenture</h3>
+            <div class="org">Energy · fullstack</div>
+            <p>Fullstack development on energy-sector projects.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>Focus</h2>
+        <div class="chips">
+          <span>AI agents</span><span>Product strategy</span><span>E-commerce</span>
+          <span>Automation</span><span>Client delivery</span><span>Go-to-market</span>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>Languages</h2>
+        <div class="chips">
+          <span>Português</span><span>Español</span><span>English</span>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
