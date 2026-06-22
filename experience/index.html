@@ -20,6 +20,7 @@
     --accent:var(--red);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}   /* author display rules below must not override the attribute */
   html,body{height:100%}
   body{
     font-family:'Space Grotesk',sans-serif;
@@ -36,6 +37,10 @@
     position:fixed;inset:0;
     display:grid;
     grid-template-rows:auto 1fr auto auto;
+    /* lock the single column to the viewport so the 560px-wide timeline track
+       scrolls inside .trackscroll instead of widening the whole app (which
+       shoved the centered stage off-screen on mobile). */
+    grid-template-columns:minmax(0,1fr);
     /* a slow accent glow that re-tints per era */
     background:
       radial-gradient(120% 90% at 50% -10%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 55%),
@@ -57,7 +62,7 @@
   .bar .say{color:var(--accent);opacity:.95;transition:color .6s}
 
   /* ---------- stage ---------- */
-  .stagewrap{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0}
+  .stagewrap{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0;min-width:0}
   .bigyear{
     position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);
     font-family:'Fraunces',serif;font-weight:900;
@@ -84,7 +89,7 @@
   }
   .lane .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);transition:background .6s,box-shadow .6s}
   .era{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:6px}
-  .title{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.98;font-size:clamp(40px,9vw,76px)}
+  .title{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.98;font-size:clamp(36px,8vw,76px);max-width:100%;overflow-wrap:break-word}
   .title em{font-style:italic;font-weight:400;color:var(--accent);transition:color .6s}
   .org{margin-top:16px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.02em}
   .org span{color:var(--grey);font-weight:400}
@@ -108,12 +113,12 @@
   .links a:hover{border-color:var(--accent);color:var(--accent)}
 
   /* ---------- timeline ---------- */
-  .timeline{position:relative;z-index:4;padding:0 clamp(14px,4vw,40px) 4px}
+  .timeline{position:relative;z-index:4;padding:0 clamp(14px,4vw,40px) 4px;min-width:0}
   .laneTags{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-bottom:2px}
   .laneTags .op{color:color-mix(in srgb,var(--red) 80%,var(--paper))}
   .laneTags .st{color:color-mix(in srgb,var(--gold) 80%,var(--paper))}
 
-  .trackscroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
+  .trackscroll{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;min-width:0}
   .trackscroll::-webkit-scrollbar{display:none}
   .trackscroll.dragging{cursor:grabbing}
   .track{
@@ -197,12 +202,37 @@
   @keyframes bob{0%,100%{transform:translateX(-50%) translateX(0)}50%{transform:translateX(-50%) translateX(7px)}}
 
   @media (max-width:720px){
-    .stage{width:94vw}
-    .blurb{max-width:34ch}
+    .stage{width:92vw}
+    .blurb{max-width:36ch}
     .bigyear{font-size:34vw;transform:translate(-50%,-58%)}
     .controls{gap:10px}
     .play{padding:0 14px}
     .ctrl{width:40px;height:40px}
+  }
+  /* Short viewports (landscape phones, small laptops): tighten the stack so the
+     tallest cards still fit between the header and the timeline without clipping. */
+  @media (max-height:760px){
+    .title{font-size:clamp(32px,6.2vh,56px)}
+    .blurb{margin-top:12px;font-size:15px;line-height:1.45}
+    .org{margin-top:12px}
+    .tags{margin-top:14px}
+    .counter{margin-top:14px}
+    .counter .num{font-size:clamp(34px,6vh,52px)}
+    .cta,.links{margin-top:16px}
+    .track{height:96px}
+  }
+  @media (max-height:620px){
+    .blurb{display:none}            /* last resort: drop the paragraph before clipping */
+    .track{height:84px}
+    .tags{margin-top:12px}
+  }
+  @media (max-height:520px){
+    .tags{display:none}            /* very short / landscape phones */
+    .title{font-size:clamp(28px,6vh,44px)}
+    .lane{margin-bottom:8px}
+    .org{margin-top:8px}
+    /* and if it still doesn't fit, let the card scroll rather than clip */
+    .stagewrap{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
