@@ -130,18 +130,14 @@
   .post.hero .desc{margin-left:auto;margin-right:auto;max-width:32ch}
   .post.hero .tags{justify-content:center}
 
-  /* --- Live demo posts: the real app shown inside a nested device frame, so
-         the whole demo screen is visible instead of being cropped behind the
-         caption scrim. The feed JS keys off .post / data-tab, so the extra
-         `demo` class is presentation-only. --- */
-  .post.demo{
-    justify-content:center;align-items:center;gap:24px;
-    padding:62px 20px 26px;background:#16130f;text-align:center;
-  }
-  .post.demo .scrim{display:none}
+  /* --- Live demo: the real app inside a phone device, rendered at a real
+         phone width and scaled to the device screen (see fitDemo) so it looks
+         proportional instead of zoomed/cropped. The caption uses the standard
+         bottom-left layout so it lines up with every other frame. --- */
+  .media.demoframe{align-items:flex-start;padding-top:52px;
+    background:radial-gradient(120% 75% at 50% 22%, #211d16 0%, #15120d 58%, #0d0c0b 100%)}
   .device{
-    position:relative;flex:0 0 auto;
-    height:min(56dvh,520px);aspect-ratio:9 / 19.5;
+    position:relative;flex:0 0 auto;height:min(52dvh,460px);aspect-ratio:9 / 19.5;
     padding:9px;border-radius:34px;background:#050505;
     box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 2px #2a2724,inset 0 0 0 1px rgba(250,248,243,.07);
   }
@@ -151,12 +147,14 @@
     width:36%;height:15px;background:#050505;border-radius:0 0 12px 12px;z-index:2;
   }
   .device .screen{position:relative;width:100%;height:100%;border-radius:26px;overflow:hidden;background:#0d0c0b}
-  .device .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#0d0c0b}
-  .post.demo .caption{position:relative;z-index:20;padding:0;max-width:34ch}
-  .post.demo .eyebrow{margin-bottom:10px}
-  .post.demo .title{font-size:clamp(26px,7vw,34px)}
-  .post.demo .desc{margin-left:auto;margin-right:auto}
-  @media(max-height:680px){.device{height:50dvh}}
+  .device .screen iframe{position:absolute;top:0;left:0;border:0;display:block;transform-origin:top left;width:390px;background:#0d0c0b}
+  @media(max-height:680px){.device{height:46dvh}}
+
+  /* --- Section divider frames (AI Projects / AI Experiments Lab / Music) --- */
+  .divider .media{background:radial-gradient(120% 80% at 30% 28%, #221d15 0%, #0d0c0b 68%)}
+  .divider .divnum{position:absolute;top:5%;right:7%;font-family:'Fraunces',serif;font-weight:900;
+    line-height:.8;font-size:clamp(150px,34vh,300px);color:rgba(250,248,243,.06)}
+  .divider .title{font-size:clamp(36px,10vw,50px)}
 
   /* --- Logo lockup (Intellecta × Shopify) + product / service cards --- */
   .post.brandcard .caption{padding:0 22px 30px}
@@ -218,7 +216,18 @@
         </div>
       </section>
 
-      <!-- 01b INTELLECTA × SHOPIFY · AI COPYWRITER + AI CHATBOT -->
+      <!-- SECTION · AI PROJECTS -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">01</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 01</div>
+          <h2 class="title">AI<br><em>Projects</em></h2>
+          <p class="desc">Intellecta product &amp; client work — shipped and in production.</p>
+        </div>
+      </section>
+
+      <!-- 01b INTELLECTA × SHOPIFY · AI COPYWRITER -->
       <section class="post dark brandcard" data-tab="projects">
         <div class="media">
           <div class="lockup">
@@ -240,11 +249,6 @@
               <span class="pill">AI Copywriter</span>
               <h3>SEO content on autopilot</h3>
               <p>Generates product descriptions and store copy, tuned for search and on-brand.</p>
-            </div>
-            <div class="card">
-              <span class="pill">AI Chatbot</span>
-              <h3>Conversational AI that sells</h3>
-              <p>Answers shoppers and handles support 24/7 — converting questions into orders.</p>
             </div>
           </div>
           <a class="cta" href="https://intellecta.io" target="_blank" rel="noopener">See the apps →</a>
@@ -274,51 +278,29 @@
         </div>
       </section>
 
-      <!-- 02 SCALLYWAGG -->
+      <!-- TELEPATHIC INSTRUMENTS · SAVE SOUND (live demo) -->
       <section class="post dark" data-tab="projects">
-        <div class="media"><img src="https://i.scdn.co/image/ab6761610000e5ebd11dda09c7185770fcb6b196" alt="Scallywagg"></div>
+        <div class="media demoframe">
+          <div class="device"><div class="screen"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
+        </div>
         <div class="scrim"></div>
         <div class="caption">
-          <div class="eyebrow">Music · Released · Lisbon ↔ Madrid</div>
-          <h2 class="title">Scallywagg</h2>
-          <div class="handle">duo · Beiro &amp; Mike Fkn P</div>
-          <p class="desc">Debut EP "This Is Scallywagg" with CRVVO Records &amp; Universal Music Portugal. Rock — Arctic Monkeys, QOTSA, Royal Blood in the DNA. Working between Lisbon and Madrid.</p>
-          <a class="cta" href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener">Listen on Spotify →</a>
-        </div>
-        <div class="rail">
-          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
-          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">1.2k</div></div>
-          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
-        </div>
-      </section>
-
-      <!-- 03 MIKE FKN P -->
-      <section class="post dark" data-tab="projects">
-        <div class="media"><img src="https://i.ytimg.com/vi/DeBfz3f87KI/maxresdefault.jpg" alt="Mike Fkn P"></div>
-        <div class="scrim"></div>
-        <div class="caption">
-          <div class="eyebrow">Music · Solo · Independent</div>
-          <h2 class="title">Mike <em>Fkn P</em></h2>
-          <div class="handle">solo project · with animation designers</div>
-          <p class="desc">[ONE-LINE DESCRIPTION — replace with what the project / this video is.] Built with designers from animation, no label scaffolding.</p>
-          <a class="cta" href="https://youtu.be/DeBfz3f87KI" target="_blank" rel="noopener">Watch on YouTube →</a>
-        </div>
-        <div class="rail">
-          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
-          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">940</div></div>
-          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
-        </div>
-      </section>
-
-      <!-- 04 TELEPATHIC INSTRUMENTS · SAVE SOUND -->
-      <section class="post demo dark" data-tab="projects">
-        <div class="device"><div class="screen"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
-        <div class="caption">
-          <div class="eyebrow">Side project · Music tech</div>
+          <div class="eyebrow">AI project · Music tech</div>
           <span class="status proto">Prototype</span>
           <h2 class="title">Telepathic<br><em>Instruments</em></h2>
           <div class="handle">instrument onboarding · save your sound</div>
-          <p class="desc">Capture a sound and teach the instrument to play it back by intent. Live demo runs right here.</p>
+          <p class="desc">Capture a sound and teach the instrument to play it back by intent.</p>
+        </div>
+      </section>
+
+      <!-- SECTION · AI EXPERIMENTS LAB -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">02</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 02</div>
+          <h2 class="title">AI<br>Experiments<br><em>Lab</em></h2>
+          <p class="desc">Prototypes and concepts — where the next ideas get tested.</p>
         </div>
       </section>
 
@@ -366,11 +348,6 @@
           <div class="handle">voice clones · auto production</div>
           <p class="desc">Cloned voices turn a script into a finished two-host episode — an experiment in fully automated audio production.</p>
           <a class="cta" href="#" target="_blank" rel="noopener">Listen to a sample →</a>
-        </div>
-        <div class="rail">
-          <div class="disc"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="23" fill="#16130f"/><circle cx="24" cy="24" r="9" fill="#C4441F"/><circle cx="24" cy="24" r="2" fill="#FAF8F3"/></svg></div>
-          <div class="act like"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="lbl">Like</div></div>
-          <div class="act"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 12v8h16v-8M16 6l-4-4-4 4M12 2v14"/></svg></div><div class="lbl">Share</div></div>
         </div>
       </section>
 
@@ -460,6 +437,43 @@
         </div>
       </section>
 
+      <!-- SECTION · MUSIC PRODUCER -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">03</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 03 · Extra</div>
+          <h2 class="title">Music<br><em>Producer</em></h2>
+          <p class="desc">The other side of the desk — releases and collaborations.</p>
+        </div>
+      </section>
+
+      <!-- MUSIC · SCALLYWAGG -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.scdn.co/image/ab6761610000e5ebd11dda09c7185770fcb6b196" alt="Scallywagg"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · Released · Lisbon ↔ Madrid</div>
+          <h2 class="title">Scallywagg</h2>
+          <div class="handle">duo · Beiro &amp; Mike Fkn P</div>
+          <p class="desc">Debut EP "This Is Scallywagg" with CRVVO Records &amp; Universal Music Portugal. Rock — Arctic Monkeys, QOTSA, Royal Blood in the DNA. Working between Lisbon and Madrid.</p>
+          <a class="cta" href="https://open.spotify.com/artist/3GwxDNdIdjX3PuphOQJye1" target="_blank" rel="noopener">Listen on Spotify →</a>
+        </div>
+      </section>
+
+      <!-- MUSIC · MIKE FKN P -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.ytimg.com/vi/DeBfz3f87KI/maxresdefault.jpg" alt="Mike Fkn P"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · Solo · Independent</div>
+          <h2 class="title">Mike <em>Fkn P</em></h2>
+          <div class="handle">solo project · with animation designers</div>
+          <p class="desc">Solo project built with animation designers — no label scaffolding.</p>
+          <a class="cta" href="https://youtu.be/DeBfz3f87KI" target="_blank" rel="noopener">Watch on YouTube →</a>
+        </div>
+      </section>
+
       <!-- JOTELULU -->
       <section class="post dark" data-tab="cv">
         <div class="media stack">
@@ -474,21 +488,6 @@
           <div class="handle">cloud platform · Portugal market</div>
           <p class="desc">Grew the Portuguese market from 1 to 7 — sales, partnerships, and the operating motion behind the expansion.</p>
           <a class="cta" href="https://youtu.be/cQ7bsbMF2oI" target="_blank" rel="noopener">Watch on YouTube →</a>
-        </div>
-      </section>
-
-      <!-- 08 TRACK RECORD -->
-      <section class="post dark" data-tab="cv">
-        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
-        <div class="scrim"></div>
-        <div class="caption">
-          <div class="eyebrow">Track record</div>
-          <h2 class="title" style="font-size:clamp(28px,8vw,38px)">Where I've<br><em>built before</em></h2>
-          <p class="desc" style="max-width:34ch;color:rgba(250,248,243,.85);font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.9">
-            <b style="color:#C4441F">2021</b> Capgemini — insurance backend<br>
-            <b style="color:#C4441F">20–21</b> SPMS Min. Saúde — teleconsults<br>
-            <b style="color:#C4441F">19–20</b> Accenture — fullstack, energy
-          </p>
         </div>
       </section>
 
@@ -556,6 +555,23 @@
     if(e.key==='ArrowDown'||e.key==='ArrowRight'){idx=Math.min(idx+1,posts.length-1);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
     if(e.key==='ArrowUp'||e.key==='ArrowLeft'){idx=Math.max(idx-1,0);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
   });
+
+  // Render the live demo at a real phone width (390px) and scale it to fit the
+  // device screen, so the app stays proportional instead of looking zoomed in.
+  const DEMO_W=390;
+  function fitDemo(){
+    document.querySelectorAll('.device .screen').forEach(s=>{
+      const f=s.querySelector('iframe');if(!f)return;
+      const w=s.clientWidth,h=s.clientHeight;if(!w||!h)return;
+      const scale=w/DEMO_W;
+      f.style.width=DEMO_W+'px';
+      f.style.height=(h/scale)+'px';
+      f.style.transform='scale('+scale+')';
+    });
+  }
+  fitDemo();
+  window.addEventListener('load',fitDemo);
+  window.addEventListener('resize',fitDemo);
 </script>
 </body>
 </html>
