@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - claude/portfolio-github-pages-376wqd
   workflow_dispatch:
 
 permissions:
