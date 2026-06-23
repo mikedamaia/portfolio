@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>@miguel.pereira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --ink:#16130F;
+    --red:#C4441F;
+    --grey:#6E665B;
+    --line:#DAD3C6;
+    --frameW:430px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:#0d0c0b;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  ::selection{background:var(--red);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+
+  .stage{
+    height:100vh;height:100dvh;width:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 80% at 50% 0%, #1c1a17 0%, #0d0c0b 60%);
+  }
+  .phone{
+    position:relative;
+    width:100%;max-width:var(--frameW);
+    height:100vh;height:100dvh;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  @media(min-width:480px){
+    .phone{
+      height:92vh;height:92dvh;max-height:920px;border-radius:30px;
+      box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 10px #000,0 0 0 11px #2a2724;
+    }
+  }
+
+  .feed{
+    height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;
+    scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+    overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  }
+  .feed::-webkit-scrollbar{display:none}
+
+  .post{
+    position:relative;height:100%;width:100%;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  }
+  .post::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(22,19,15,.035) 1px,transparent 1px);
+    background-size:4px 4px;mix-blend-mode:multiply;
+  }
+
+  .media{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ECE6DA}
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media.frame{display:block}
+  .media iframe{width:100%;height:100%;border:0;display:block;background:#0d0c0b}
+  .media.stack{display:flex;flex-direction:column}
+  .media.stack img{height:33.3333%}
+  .media .ph{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.9;padding:30px}
+  .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(250,248,243,.97) 0%,rgba(250,248,243,.85) 22%,rgba(250,248,243,.1) 50%,rgba(250,248,243,0) 75%)}
+  .post.dark .scrim{background:linear-gradient(to top,rgba(13,12,11,.95) 0%,rgba(13,12,11,.7) 28%,rgba(13,12,11,.05) 60%,transparent 80%)}
+  .post.dark .caption,.post.dark .caption *{color:var(--paper)}
+  .post.dark .desc{color:rgba(250,248,243,.82)}
+
+  .topbar{
+    position:absolute;top:0;left:0;right:0;z-index:30;
+    display:flex;align-items:center;justify-content:center;gap:22px;padding:18px 16px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);
+    text-shadow:0 1px 6px rgba(0,0,0,.4);
+  }
+  .topbar .t{opacity:.55;cursor:pointer}
+  .topbar .t.on{opacity:1;position:relative}
+  .topbar .t.on::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--red)}
+
+  .caption{position:relative;z-index:20;padding:0 84px 30px 22px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+  .title{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;line-height:.95;font-size:clamp(34px,9vw,46px)}
+  .title em{font-style:italic;font-weight:400;color:var(--red)}
+  .handle{margin-top:16px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.02em}
+  .desc{margin-top:9px;font-size:15px;line-height:1.5;color:var(--grey);max-width:30ch}
+  .status{display:inline-block;margin-top:14px;margin-right:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px}
+  .status.live{background:var(--red);color:var(--paper)}
+  .status.proto{background:var(--ink);color:var(--paper)}
+  .post.dark .status.proto{background:var(--paper);color:var(--ink)}
+  .status.concept{border:1px solid currentColor;opacity:.8}
+  .tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
+  .tags span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;padding:5px 10px;border:1px solid var(--line);color:var(--grey)}
+  .post.dark .tags span{border-color:rgba(250,248,243,.3);color:rgba(250,248,243,.7)}
+  .cta{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;background:var(--ink);color:var(--paper)}
+  .post.dark .cta{background:var(--red)}
+
+  .rail{position:absolute;right:12px;bottom:34px;z-index:25;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .rail .act{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+  .rail .act .ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(250,248,243,.12);border:1px solid rgba(250,248,243,.55);transition:transform .15s ease,background .15s ease}
+  .rail .act:active .ic{transform:scale(.9)}
+  .rail .act .ic svg{width:22px;height:22px;stroke:var(--paper)}
+  .rail .act .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--paper)}
+  .rail .act.liked .ic{background:var(--red);border-color:var(--red)}
+  .rail .act.liked .ic svg{fill:var(--paper)}
+  .rail .disc{width:48px;height:48px;border-radius:50%;border:2px solid var(--paper);overflow:hidden;margin-bottom:4px;background:var(--ink)}
+  .rail .disc svg{width:100%;height:100%;animation:spin 8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.rail .disc svg{animation:none}}
+
+  .progress{position:absolute;right:3px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:7px}
+  .progress .d{width:3px;height:14px;border-radius:2px;background:rgba(250,248,243,.25);transition:all .3s}
+  .progress .d.on{background:var(--red);height:24px}
+
+  .hint{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:20;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,248,243,.8);animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+  @media(prefers-reduced-motion:reduce){.hint{animation:none}}
+  .hint svg{width:20px;height:20px;stroke:rgba(250,248,243,.8)}
+
+  .post.hero{justify-content:center;text-align:center}
+  .post.hero .caption{padding:0 30px}
+  .post.hero .title{font-size:clamp(44px,13vw,60px)}
+  .post.hero .desc{margin-left:auto;margin-right:auto;max-width:32ch}
+  .post.hero .tags{justify-content:center}
+
+  /* --- Live demo: the real app inside a phone device, rendered at a real
+         phone width and scaled to the device screen (see fitDemo) so it looks
+         proportional instead of zoomed/cropped. The caption uses the standard
+         bottom-left layout so it lines up with every other frame. --- */
+  .media.demoframe{align-items:flex-start;padding-top:52px;
+    background:radial-gradient(120% 75% at 50% 22%, #211d16 0%, #15120d 58%, #0d0c0b 100%)}
+  .device{
+    position:relative;flex:0 0 auto;height:min(52dvh,460px);aspect-ratio:9 / 19.5;
+    padding:9px;border-radius:34px;background:#050505;
+    box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 2px #2a2724,inset 0 0 0 1px rgba(250,248,243,.07);
+  }
+  /* Notch hanging from the top bezel over the screen — the usual phone read. */
+  .device::before{
+    content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:36%;height:15px;background:#050505;border-radius:0 0 12px 12px;z-index:2;
+  }
+  .device .screen{position:relative;width:100%;height:100%;border-radius:26px;overflow:hidden;background:#0d0c0b}
+  /* pointer-events:none so wheel/touch passes through to the feed (the iframe
+     otherwise traps the scroll and you can't snap past this frame). */
+  .device .screen iframe{position:absolute;top:0;left:0;border:0;display:block;transform-origin:top left;width:390px;background:#0d0c0b;pointer-events:none}
+  @media(max-height:680px){.device{height:46dvh}}
+
+  /* --- Section divider frames (AI Projects / AI Experiments Lab / Music) --- */
+  .divider .media{background:radial-gradient(120% 80% at 30% 28%, #221d15 0%, #0d0c0b 68%)}
+  .divider .divnum{position:absolute;top:5%;right:7%;font-family:'Fraunces',serif;font-weight:900;
+    line-height:.8;font-size:clamp(150px,34vh,300px);color:rgba(250,248,243,.06)}
+  .divider .title{font-size:clamp(36px,10vw,50px)}
+
+  /* --- Logo lockup (Intellecta × Shopify) + product / service cards --- */
+  .post.brandcard .caption{padding:0 22px 30px}
+  .lockup{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px;padding-top:17%;
+          background:radial-gradient(120% 80% at 50% 26%, #232a31 0%, #15120d 58%, #0d0c0b 100%)}
+  .lockup .marks{display:flex;align-items:center;gap:22px}
+  .lockup .marks img.ico{width:76px;height:76px;display:block;border-radius:18px}
+  .lockup .marks svg{width:60px;height:60px;display:block}
+  .lockup .marks .x{font-family:'Fraunces',serif;font-style:italic;font-size:30px;color:rgba(250,248,243,.45)}
+  .lockup .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,248,243,.55)}
+
+  .duo{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+  .duo .card{border:1px solid rgba(250,248,243,.18);border-radius:4px;padding:11px 13px;text-align:left;background:rgba(250,248,243,.03)}
+  .duo .card .pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+  .duo .card h3{margin-top:3px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--paper)}
+  .duo .card p{margin-top:3px;font-size:12px;line-height:1.4;color:rgba(250,248,243,.72)}
+
+  .svc{margin-top:14px;display:flex;flex-direction:column;gap:11px;max-width:33ch}
+  .svc li{list-style:none;display:flex;gap:11px;align-items:flex-start}
+  .svc li .b{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--red);padding-top:2px}
+  .svc li .tx{font-size:13px;line-height:1.45;color:rgba(250,248,243,.85)}
+  .svc li .tx b{color:var(--paper);font-weight:700}
+
+  /* --- The Lab: text/diagram visuals (no screenshots) --- */
+  .labviz{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;
+          padding:62px 30px 0;background:radial-gradient(120% 75% at 50% 24%, #1e231b 0%, #15120d 58%, #0d0c0b 100%)}
+  .labviz svg{width:100%;max-width:300px;height:auto;overflow:visible}
+
+  /* --- Polish: interaction states, transitions, focus --- */
+  .cta{transition:transform .16s ease,box-shadow .16s ease,opacity .16s ease}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.28)}
+  .cta:active{transform:translateY(0);box-shadow:none}
+  .tags span{transition:border-color .16s ease,color .16s ease}
+  .tags a:hover span{border-color:var(--red);color:var(--red)}
+  .topbar .t{transition:opacity .16s ease}
+  .topbar .t:hover{opacity:.85}
+  .duo .card{transition:border-color .16s ease,background .16s ease}
+  .duo .card:hover{border-color:rgba(250,248,243,.34);background:rgba(250,248,243,.05)}
+  a:focus-visible,.t:focus-visible,.cta:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+  @media(prefers-reduced-motion:reduce){
+    .feed{scroll-behavior:auto}
+    .cta,.cta:hover,.tags span,.duo .card{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="feed" id="feed">
+
+      <!-- 00 HERO -->
+      <section class="post hero dark" data-tab="profile">
+        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <h1 class="title">Portfolio</h1>
+          <p class="desc">A collection of projects I've done through the years.</p>
+        </div>
+        <div class="hint"><span>Swipe up</span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+      </section>
+
+      <!-- SECTION · AI PROJECTS -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">01</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 01</div>
+          <h2 class="title">AI<br><em>Projects</em></h2>
+          <p class="desc">Intellecta product &amp; client work — shipped and in production.</p>
+        </div>
+      </section>
+
+      <!-- 01b INTELLECTA × SHOPIFY · AI COPYWRITER -->
+      <section class="post dark brandcard" data-tab="projects">
+        <div class="media">
+          <div class="lockup">
+            <div class="marks">
+              <img class="ico" src="../assets/intellecta/intellecta-icon.svg" alt="Intellecta">
+              <span class="x">×</span>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shopify"><path fill="#7AB55C" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"/></svg>
+            </div>
+            <span class="lbl">Live on the Shopify App Store</span>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Intellecta · Shopify App Store · 2024</div>
+          <span class="status live">Live</span>
+          <h2 class="title" style="font-size:clamp(27px,7.5vw,37px)">AI Agents<br><em>for Shopify</em></h2>
+          <div class="duo">
+            <div class="card">
+              <span class="pill">AI Copywriter</span>
+              <h3>SEO content on autopilot</h3>
+              <p>Generates product descriptions and store copy, tuned for search and on-brand.</p>
+            </div>
+            <div class="card">
+              <span class="pill">AI Chatbot</span>
+              <h3>Conversational AI that sells</h3>
+              <p>Answers shoppers and handles support 24/7 — converting questions into orders.</p>
+            </div>
+          </div>
+          <a class="cta" href="https://intellecta.io" target="_blank" rel="noopener">See the apps →</a>
+        </div>
+      </section>
+
+      <!-- 01c INTELLECTA · CUSTOM SERVICES -->
+      <section class="post dark brandcard" data-tab="projects">
+        <div class="media">
+          <div class="lockup">
+            <div class="marks">
+              <img class="ico" src="../assets/intellecta/intellecta-icon.svg" alt="Intellecta">
+            </div>
+            <span class="lbl">Bespoke client builds</span>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Intellecta · Custom work · 2024</div>
+          <span class="status proto">Custom</span>
+          <h2 class="title" style="font-size:clamp(27px,7.5vw,37px)">Custom<br><em>AI Services</em></h2>
+          <div class="handle">scoped per client · shipped end-to-end</div>
+          <ul class="svc">
+            <li><span class="b">01</span><span class="tx"><b>Data migration</b> — moving catalog &amp; customer data at scale for <b>Sigvaris</b>.</span></li>
+            <li><span class="b">02</span><span class="tx"><b>Competitor price research</b> — automated price intelligence for e-commerce electronics clients.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- TELEPATHIC INSTRUMENTS · SAVE SOUND (live demo) -->
+      <section class="post dark" data-tab="projects">
+        <div class="media demoframe">
+          <div class="device"><div class="screen"><iframe src="https://orchid-agent.vercel.app/demo/save-sound" title="Telepathic Instruments — Save Sound demo" loading="lazy" allow="microphone; autoplay; clipboard-write" referrerpolicy="no-referrer"></iframe></div></div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">AI project · Music tech · 2025</div>
+          <span class="status proto">Prototype</span>
+          <h2 class="title">Telepathic<br><em>Instruments</em></h2>
+          <div class="handle">instrument onboarding · save your sound</div>
+          <p class="desc">Capture a sound and teach the instrument to play it back by intent.</p>
+        </div>
+      </section>
+
+      <!-- SECTION · AI EXPERIMENTS LAB -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">02</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 02</div>
+          <h2 class="title">AI<br>Experiments<br><em>Lab</em></h2>
+          <p class="desc">Prototypes and concepts — where the next ideas get tested.</p>
+        </div>
+      </section>
+
+      <!-- 05 THE LAB · AI PODCAST STUDIO -->
+      <section class="post dark" data-tab="projects">
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="Pipeline: script to cloned voices to a finished episode">
+              <g fill="#16130f" stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <rect x="70" y="8" width="160" height="44" rx="8"/>
+                <rect x="70" y="100" width="160" height="44" rx="8"/>
+                <rect x="70" y="192" width="160" height="44" rx="8"/>
+              </g>
+              <g fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">
+                <text x="150" y="35">SCRIPT</text>
+                <text x="150" y="127">VOICE CLONES</text>
+                <text x="150" y="219">EPISODE</text>
+              </g>
+              <g stroke="#C4441F" stroke-width="1.5" fill="#C4441F">
+                <line x1="150" y1="52" x2="150" y2="92"/>
+                <polygon points="150,100 146,92 154,92"/>
+                <line x1="150" y1="144" x2="150" y2="184"/>
+                <polygon points="150,192 146,184 154,184"/>
+              </g>
+              <g stroke="rgba(250,248,243,.5)" stroke-width="2" stroke-linecap="round">
+                <line x1="92" y1="262" x2="92" y2="278"/>
+                <line x1="104" y1="256" x2="104" y2="284"/>
+                <line x1="116" y1="266" x2="116" y2="274"/>
+                <line x1="128" y1="250" x2="128" y2="290"/>
+                <line x1="140" y1="260" x2="140" y2="280"/>
+                <line x1="152" y1="246" x2="152" y2="294"/>
+                <line x1="164" y1="262" x2="164" y2="278"/>
+                <line x1="176" y1="254" x2="176" y2="286"/>
+                <line x1="188" y1="266" x2="188" y2="274"/>
+                <line x1="200" y1="258" x2="200" y2="282"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">The Lab · Experimental · 2025</div>
+          <span class="status proto">Experiment</span>
+          <h2 class="title">AI Podcast<br><em>Studio</em></h2>
+          <div class="handle">voice clones · auto production</div>
+          <p class="desc">Cloned voices turn a script into a finished two-host episode — an experiment in fully automated audio production.</p>
+        </div>
+      </section>
+
+      <!-- 06 THE LAB · MOVIE PARALLEL UNIVERSE -->
+      <section class="post dark" data-tab="projects">
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="A film branches into a swarm of agents that converge on an ending">
+              <g stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <line x1="150" y1="56" x2="48" y2="122"/>
+                <line x1="150" y1="56" x2="116" y2="122"/>
+                <line x1="150" y1="56" x2="184" y2="122"/>
+                <line x1="150" y1="56" x2="252" y2="122"/>
+                <line x1="48" y1="156" x2="150" y2="228"/>
+                <line x1="116" y1="156" x2="150" y2="228"/>
+                <line x1="184" y1="156" x2="150" y2="228"/>
+                <line x1="252" y1="156" x2="150" y2="228"/>
+              </g>
+              <rect x="106" y="14" width="88" height="40" rx="8" fill="#16130f" stroke="rgba(250,248,243,.42)" stroke-width="1.5"/>
+              <text x="150" y="39" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">FILM</text>
+              <g fill="#16130f" stroke="#C4441F" stroke-width="1.5">
+                <circle cx="48" cy="138" r="17"/>
+                <circle cx="116" cy="138" r="17"/>
+                <circle cx="184" cy="138" r="17"/>
+                <circle cx="252" cy="138" r="17"/>
+              </g>
+              <g fill="#FAF8F3" font-size="12" text-anchor="middle">
+                <text x="48" y="142">A1</text>
+                <text x="116" y="142">A2</text>
+                <text x="184" y="142">A3</text>
+                <text x="252" y="142">A4</text>
+              </g>
+              <rect x="98" y="228" width="104" height="42" rx="8" fill="#C4441F"/>
+              <text x="150" y="254" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">ENDING</text>
+            </svg>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">The Lab · Experimental · 2025</div>
+          <span class="status concept">Concept</span>
+          <h2 class="title">Parallel<br><em>Universe</em></h2>
+          <div class="handle">agent swarm · simulated endings</div>
+          <p class="desc">A swarm of AI agents runs a film as a simulation — each plays a character and improvises, branching the plot to see which ending the story converges on.</p>
+        </div>
+      </section>
+
+      <!-- 07 THE LAB · VELOCITY OS -->
+      <section class="post dark" data-tab="projects">
+        <div class="media">
+          <div class="labviz">
+            <svg viewBox="0 0 300 300" style="font-family:'JetBrains Mono',monospace" role="img" aria-label="Decision engine: business signals feed Velocity OS, which outputs the next move">
+              <g fill="#16130f" stroke="rgba(250,248,243,.3)" stroke-width="1.5">
+                <rect x="14" y="14" width="74" height="34" rx="7"/>
+                <rect x="113" y="14" width="74" height="34" rx="7"/>
+                <rect x="212" y="14" width="74" height="34" rx="7"/>
+              </g>
+              <g fill="#FAF8F3" font-size="11" text-anchor="middle" letter-spacing="1">
+                <text x="51" y="35">SALES</text>
+                <text x="150" y="35">COSTS</text>
+                <text x="249" y="35">STOCK</text>
+              </g>
+              <g stroke="rgba(250,248,243,.28)" stroke-width="1.5">
+                <line x1="51" y1="48" x2="150" y2="112"/>
+                <line x1="150" y1="48" x2="150" y2="112"/>
+                <line x1="249" y1="48" x2="150" y2="112"/>
+              </g>
+              <rect x="86" y="112" width="128" height="52" rx="10" fill="#16130f" stroke="#C4441F" stroke-width="2"/>
+              <text x="150" y="135" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">VELOCITY</text>
+              <text x="150" y="152" fill="#C4441F" font-size="11" text-anchor="middle" letter-spacing="3">OS</text>
+              <g stroke="#C4441F" stroke-width="1.5" fill="#C4441F">
+                <line x1="150" y1="164" x2="150" y2="208"/>
+                <polygon points="150,216 146,208 154,208"/>
+              </g>
+              <rect x="78" y="216" width="144" height="44" rx="8" fill="#C4441F"/>
+              <text x="150" y="243" fill="#FAF8F3" font-size="13" text-anchor="middle" letter-spacing="1.5">NEXT MOVE</text>
+            </svg>
+          </div>
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">The Lab · Experimental · 2026</div>
+          <span class="status concept">Concept</span>
+          <h2 class="title">Velocity<br><em>OS</em></h2>
+          <div class="handle">decision engine · for SMBs</div>
+          <p class="desc">Pulls a small business's signals — sales, costs, inventory — into one model and recommends the next move, so owners decide with data instead of gut.</p>
+        </div>
+      </section>
+
+      <!-- SECTION · MUSIC PRODUCER -->
+      <section class="post divider dark" data-tab="projects">
+        <div class="media"><div class="divnum">03</div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Section 03 · Extra</div>
+          <h2 class="title">Music<br><em>Producer</em></h2>
+          <p class="desc">The other side of the desk — releases and collaborations.</p>
+        </div>
+      </section>
+
+      <!-- MUSIC · SCALLYWAGG -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.scdn.co/image/ab6761610000e5ebd11dda09c7185770fcb6b196" alt="Scallywagg"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · 2023 · Lisbon ↔ Madrid</div>
+          <h2 class="title">Scallywagg</h2>
+          <div class="handle">duo · Beiro &amp; Mike Fkn P</div>
+          <p class="desc">Debut EP "This Is Scallywagg" with CRVVO Records &amp; Universal Music Portugal. Rock — Arctic Monkeys, QOTSA, Royal Blood in the DNA. Working between Lisbon and Madrid.</p>
+        </div>
+      </section>
+
+      <!-- MUSIC · MIKE FKN P -->
+      <section class="post dark" data-tab="projects">
+        <div class="media"><img src="https://i.ytimg.com/vi/DeBfz3f87KI/maxresdefault.jpg" alt="Mike Fkn P"></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Music · Solo · 2024</div>
+          <h2 class="title">Mike <em>Fkn P</em></h2>
+          <div class="handle">solo project · with animation designers</div>
+          <p class="desc">Solo project built with animation designers — no label scaffolding.</p>
+        </div>
+      </section>
+
+      <!-- JOTELULU — temporarily disabled (lives on the CV route)
+      <section class="post dark" data-tab="cv">
+        <div class="media stack">
+          <img src="../assets/jotelulu/jotelulu-1.webp" alt="Jotelulu Road Show">
+          <img src="../assets/jotelulu/jotelulu-2.webp" alt="Jotelulu Road Show">
+          <img src="../assets/jotelulu/jotelulu-3.webp" alt="Jotelulu Road Show">
+        </div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <div class="eyebrow">Experience · 2022 → 2024</div>
+          <h2 class="title">Jotelulu</h2>
+          <div class="handle">cloud platform · Portugal market</div>
+          <p class="desc">Grew the Portuguese market from 1 to 7 — sales, partnerships, and the operating motion behind the expansion.</p>
+          <a class="cta" href="https://youtu.be/cQ7bsbMF2oI" target="_blank" rel="noopener">Watch on YouTube →</a>
+        </div>
+      </section>
+      -->
+
+      <!-- 09 CONTACT -->
+      <section class="post hero dark" data-tab="profile">
+        <div class="media"><div class="ph" style="position:absolute;inset:0;background:#16130f"></div></div>
+        <div class="scrim"></div>
+        <div class="caption">
+          <h2 class="title">Let's talk</h2>
+          <div class="tags" style="margin-top:22px">
+            <a href="https://www.linkedin.com/in/meet-miguel-pereira" target="_blank" rel="noopener"><span>LinkedIn profile</span></a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="topbar" id="topbar">
+      <a class="t on" href="./">Portfolio</a>
+      <a class="t" href="../">CV</a>
+    </div>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<script>
+  const feed=document.getElementById('feed');
+  const posts=[...feed.querySelectorAll('.post')];
+  const prog=document.getElementById('progress');
+  let idx=0;
+
+  posts.forEach((_,i)=>{const d=document.createElement('div');d.className='d'+(i===0?' on':'');prog.appendChild(d);});
+  const dots=[...prog.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        idx=posts.indexOf(e.target);
+        dots.forEach((d,k)=>d.classList.toggle('on',k===idx));
+      }
+    });
+  },{threshold:.6});
+  posts.forEach(p=>io.observe(p));
+
+  feed.querySelectorAll('.act.like').forEach(a=>a.addEventListener('click',()=>a.classList.toggle('liked')));
+
+  let hinted=false;
+  feed.addEventListener('scroll',()=>{
+    if(!hinted){const h=document.querySelector('.hint');if(h){h.style.transition='opacity .4s';h.style.opacity='0';}hinted=true;}
+  });
+
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'){idx=Math.min(idx+1,posts.length-1);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){idx=Math.max(idx-1,0);posts[idx].scrollIntoView({behavior:'smooth'});e.preventDefault();}
+  });
+
+  // Render the live demo at a real phone width (390px) and scale it to fit the
+  // device screen, so the app stays proportional instead of looking zoomed in.
+  const DEMO_W=390;
+  function fitDemo(){
+    document.querySelectorAll('.device .screen').forEach(s=>{
+      const f=s.querySelector('iframe');if(!f)return;
+      const w=s.clientWidth,h=s.clientHeight;if(!w||!h)return;
+      const scale=w/DEMO_W;
+      f.style.width=DEMO_W+'px';
+      f.style.height=(h/scale)+'px';
+      f.style.transform='scale('+scale+')';
+    });
+  }
+  fitDemo();
+  window.addEventListener('load',fitDemo);
+  window.addEventListener('resize',fitDemo);
+</script>
+</body>
+</html>
