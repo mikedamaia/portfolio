@@ -124,9 +124,9 @@
 </head>
 <body>
 
-<div class="topbar">
-  <a class="t on" href="./">CV</a>
-  <a class="t" href="projects/">Portfolio</a>
+<div class="topbar" id="nav">
+  <a class="t" href="/portfolio/">CV</a>
+  <a class="t" href="/portfolio/projects/">Portfolio</a>
 </div>
 
 <main class="doc">
@@ -260,5 +260,15 @@
 
 <div class="foot">Miguel Pereira · <a href="projects/">View the project portfolio →</a></div>
 
+<script>
+  // Same header markup on every route; highlight the link for the current page.
+  (function(){
+    var here=location.pathname.replace(/index\.html$/,'').replace(/\/+$/,'');
+    document.querySelectorAll('#nav .t').forEach(function(a){
+      var p=new URL(a.href).pathname.replace(/\/+$/,'');
+      if(p===here)a.classList.add('on');
+    });
+  })();
+</script>
 </body>
 </html>

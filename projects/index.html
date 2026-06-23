@@ -539,9 +539,9 @@
 
     </div>
 
-    <div class="topbar" id="topbar">
-      <a class="t" href="../">CV</a>
-      <a class="t on" href="./">Portfolio</a>
+    <div class="topbar" id="nav">
+      <a class="t" href="/portfolio/">CV</a>
+      <a class="t" href="/portfolio/projects/">Portfolio</a>
     </div>
     <div class="progress" id="progress"></div>
   </div>
@@ -594,6 +594,15 @@
   fitDemo();
   window.addEventListener('load',fitDemo);
   window.addEventListener('resize',fitDemo);
+
+  // Same header markup on every route; highlight the link for the current page.
+  (function(){
+    var here=location.pathname.replace(/index\.html$/,'').replace(/\/+$/,'');
+    document.querySelectorAll('#nav .t').forEach(function(a){
+      var p=new URL(a.href).pathname.replace(/\/+$/,'');
+      if(p===here)a.classList.add('on');
+    });
+  })();
 </script>
 </body>
 </html>
